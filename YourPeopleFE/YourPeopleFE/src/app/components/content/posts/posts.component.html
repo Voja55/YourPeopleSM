@@ -1,0 +1,26 @@
+<div>
+<!--  user info and group info-->
+  <div class="user-info">
+    <img src="user-placeholder.jpg" alt="User Photo">
+    <a class="username">{{ post?.username }}</a>
+    <p class="group-name">Posted in {{ post?.groupName }}</p>
+  </div>
+<!--  post content-->
+  <div>
+    <p class="post-content">{{ post?.content }}</p>
+  </div>
+  <div class="reactions">
+    <button (click)="reactLike()"><img src="assets/reactionIcons/like.png" alt="Like"></button>
+    <button (click)="reactLaugh()"><img src="assets/reactionIcons/laugh.png" alt="Laugh"></button>
+    <button (click)="reactLove()"><img src="assets/reactionIcons/love.png" alt="Love"></button>
+    <span>{{ post?.reactionNum }} Reactions</span>
+  </div>
+  <button (click)="openComments()">Open Comments</button>
+<!--comments auto closed, oppened when toggled above-->
+  <div *ngIf="commentToggle">
+    <h2>Comments</h2>
+    <div>
+      <app-comments [post]="post"></app-comments>
+    </div>
+  </div>
+</div>

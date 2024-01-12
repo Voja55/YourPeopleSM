@@ -1,0 +1,41 @@
+<div class="profile-container">
+  <div class="profile-box">
+    <div>
+      <div class="input-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{user.name}}" readonly>
+      </div>
+      <div class="input-group">
+        <label for="surname">Surname</label>
+        <input type="text" id="surname" name="surname" value="{{user.surname}}" readonly>
+      </div>
+
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="{{user.username}}" readonly>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" value="{{user.email}}" readonly>
+      </div>
+
+      <div class="input-group">
+        <label for="desc">Description</label>
+        <input type="text" id="desc" name="email" value="{{user.description}}" readonly>
+      </div>
+
+      <button (click)="editProfile()" class="edit-btn">Change Info</button>
+    </div>
+  </div>
+  <div class="user-group-box">
+    <div><h2>Your groups</h2></div>
+    <div *ngFor="let group of groups">
+      <div class="group-bar">
+        <a class="group-name">{{ group.name }}</a>
+        <p class="group-desc">Description: {{ group.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+

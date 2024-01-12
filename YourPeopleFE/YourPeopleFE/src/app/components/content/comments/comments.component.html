@@ -1,0 +1,23 @@
+<div *ngFor="let comment of comments">
+  <div class="comment-bar">
+    <a class="comment-name">{{ comment.username }}</a>
+    <p class="comment-timestamp">{{ comment.timestamp}}</p>
+    <p class="comment-desc">{{ comment.text}}</p>
+  </div>
+  <button (click)="openReplies()">Open Replies</button>
+  <div *ngIf="repliesToggle">
+    <div *ngFor="let reply of replies">
+      <div class="reply-bar">
+        <a class="reply-name">{{ reply.username }}</a>
+        <p class="reply-timestamp">{{ reply.timestamp}}</p>
+        <p class="reply-desc">{{ reply.text}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="input-group">
+    <label for="reply">Username</label>
+    <input type="text" id="reply" name="reply" [(ngModel)]="replytext" placeholder="Reply to this comment">
+  </div>
+  <button type="button" class="reply-btn" (click)="reply()">Reply</button>
+
+</div>
