@@ -1,7 +1,6 @@
 package com.example.YourPeopleBE.model.entity;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;

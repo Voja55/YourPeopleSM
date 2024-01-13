@@ -10,5 +10,6 @@ public interface IUserService {
     List<User> getAllUsers();
     List<User> searchUsers(String searchparam);
     User findByUsername(String username);
+    User findByid(Long id);
     User updateUserInfo(User user);
 }
