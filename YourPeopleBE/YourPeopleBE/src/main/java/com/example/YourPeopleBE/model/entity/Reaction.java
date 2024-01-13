@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "reactions")
 public class Reaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private EReactionType reactionType;

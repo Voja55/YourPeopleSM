@@ -18,7 +18,7 @@ public class GroupReq {
     private Long id;
 
     @Column(nullable = false)
-    private boolean approved;
+    private ERequestState approved;
 
     @CreationTimestamp
     @Column(nullable = false)

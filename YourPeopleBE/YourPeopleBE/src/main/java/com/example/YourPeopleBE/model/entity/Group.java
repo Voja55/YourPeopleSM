@@ -21,7 +21,6 @@ public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
     @Column(nullable = false)
@@ -35,7 +34,7 @@ public class Group {
     private User groupAdmin;
 
     @Column(nullable = false)
-    private boolean isSuspended;
+    private boolean suspended;
     @Column
     private LocalDateTime suspendedTime;
     @Column
@@ -43,7 +42,7 @@ public class Group {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "group")
     @JsonIgnore
-    private Set<GroupReq> waitingReqs = new HashSet<GroupReq>();
+    private Set<GroupReq> requests = new HashSet<GroupReq>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "postedIn")
     @JsonIgnore
