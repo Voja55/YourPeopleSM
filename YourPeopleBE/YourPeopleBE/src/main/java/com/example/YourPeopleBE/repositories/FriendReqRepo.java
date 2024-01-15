@@ -10,7 +10,10 @@ import java.util.List;
 
 @Repository
 public interface FriendReqRepo extends JpaRepository<FriendReq, Long> {
-    public List<GroupReq> findAllByTo (User user);
+    public List<FriendReq> findAllByTo (User user);
 
-    public List<GroupReq> findAllByApproved_AcceptedAndTo (User user);
+    public List<FriendReq> findAllByApproved_AcceptedAndTo (User user);
+    public List<FriendReq> findAllByApproved_WaitingAndTo (User user);
+    public List<FriendReq> findAllByApproved_AcceptedAndFrom (User user);
+    public List<FriendReq> findAllByApproved_RejectedAndFrom (User user);
 }

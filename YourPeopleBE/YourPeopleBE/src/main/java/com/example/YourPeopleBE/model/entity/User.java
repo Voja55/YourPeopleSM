@@ -37,7 +37,8 @@ public class User {
     private String desc;
 
     @Column(nullable = false)
-    private boolean sysadmin;
+    @Enumerated(EnumType.STRING)
+    private ERole role;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groupAdmin")
     @JsonIgnore

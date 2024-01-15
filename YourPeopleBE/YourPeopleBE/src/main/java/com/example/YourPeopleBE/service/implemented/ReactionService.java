@@ -7,6 +7,7 @@ import com.example.YourPeopleBE.model.entity.Reaction;
 import com.example.YourPeopleBE.model.entity.User;
 import com.example.YourPeopleBE.repositories.ReactionRepo;
 import com.example.YourPeopleBE.service.IReactionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ReactionService implements IReactionService {
     final CommentService commentService;
     final UserService userService;
 
+    @Autowired
     public ReactionService(ReactionRepo reactionRepo, PostService postService, CommentService commentService, UserService userService) {
         this.reactionRepo = reactionRepo;
         this.postService = postService;

@@ -1,9 +1,11 @@
 package com.example.YourPeopleBE.service.implemented;
 
 import com.example.YourPeopleBE.model.dto.UserDTO;
+import com.example.YourPeopleBE.model.entity.ERole;
 import com.example.YourPeopleBE.model.entity.User;
 import com.example.YourPeopleBE.repositories.UserRepo;
 import com.example.YourPeopleBE.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class UserService implements IUserService {
 
     final PasswordEncoder passEncoder;
 
+    @Autowired
     public UserService(UserRepo userRepo, PasswordEncoder passEncoder) {
         this.userRepo = userRepo;
         this.passEncoder = passEncoder;
@@ -35,7 +38,7 @@ public class UserService implements IUserService {
         newUser.setName(userDTO.getName());
         newUser.setSurname(userDTO.getSurname());
         newUser.setDesc(userDTO.getDesc());
-        newUser.setSysadmin(false);
+        newUser.setRole(ERole.USER);
         newUser = userRepo.save(newUser);
         return newUser;
     }

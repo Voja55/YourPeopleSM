@@ -1,10 +1,7 @@
 package com.example.YourPeopleBE.model.dto;
 
+import com.example.YourPeopleBE.model.entity.ERole;
 import com.example.YourPeopleBE.model.entity.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +29,7 @@ public class UserDTO {
 
     private String desc;
 
-    private boolean sysadmin;
+    private ERole role;
 
     public UserDTO(User createdUser) {
         this.id = createdUser.getId();
@@ -43,6 +40,6 @@ public class UserDTO {
         this.name = createdUser.getName();
         this.surname = createdUser.getSurname();
         this.desc = createdUser.getDesc();
-        this.sysadmin = createdUser.isSysadmin();
+        this.role = createdUser.getRole();
     }
 }

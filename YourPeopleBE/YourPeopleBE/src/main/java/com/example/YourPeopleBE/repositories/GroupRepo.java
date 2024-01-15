@@ -13,4 +13,6 @@ public interface GroupRepo extends JpaRepository<Group, Long> {
     public Optional<Group> findFirstByName (String name);
 
     public List<Group> findAllByNameContains(String search);
+
+    public List<Group> findAllBySuspendedIsFalse();
 }

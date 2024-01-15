@@ -8,6 +8,7 @@ import com.example.YourPeopleBE.repositories.PostRepo;
 import com.example.YourPeopleBE.service.IGroupService;
 import com.example.YourPeopleBE.service.IPostService;
 import com.example.YourPeopleBE.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class PostService implements IPostService {
     final IGroupService groupService;
     final IUserService userService;
 
+    @Autowired
     public PostService(PostRepo postRepo, IGroupService groupService, IUserService userService) {
         this.postRepo = postRepo;
         this.groupService = groupService;
