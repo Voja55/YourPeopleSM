@@ -3,7 +3,6 @@ package com.example.YourPeopleBE.model.dto;
 import com.example.YourPeopleBE.model.entity.Group;
 import com.example.YourPeopleBE.model.entity.Post;
 import com.example.YourPeopleBE.model.entity.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,13 +23,13 @@ public class PostDTO {
 
     private User postedBy;
 
-    private Group postedIn;
+    private Group postedgroup;
 
     public PostDTO(Post createdPost) {
         this.id = createdPost.getId();
         this.content = createdPost.getContent();
         this.creationDate = createdPost.getCreationDate();
         this.postedBy = createdPost.getPostedBy();
-        this.postedIn = createdPost.getPostedIn();
+        this.postedgroup = createdPost.getPostedgroup();
     }
 }

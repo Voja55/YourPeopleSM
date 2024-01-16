@@ -20,7 +20,7 @@ public class ReactionService implements IReactionService {
     final CommentService commentService;
     final UserService userService;
 
-    @Autowired
+
     public ReactionService(ReactionRepo reactionRepo, PostService postService, CommentService commentService, UserService userService) {
         this.reactionRepo = reactionRepo;
         this.postService = postService;

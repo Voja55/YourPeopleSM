@@ -18,7 +18,6 @@ public class CommentService implements ICommentService {
 
     final PostService postService;
 
-    @Autowired
     public CommentService(CommentRepo commentRepo, PostService postService) {
         this.commentRepo = commentRepo;
         this.postService = postService;

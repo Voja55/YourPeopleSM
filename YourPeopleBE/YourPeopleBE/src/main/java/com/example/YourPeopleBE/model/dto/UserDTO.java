@@ -27,7 +27,7 @@ public class UserDTO {
 
     private String surname;
 
-    private String desc;
+    private String description;
 
     private ERole role;
 
@@ -39,7 +39,7 @@ public class UserDTO {
         this.lastLogin = createdUser.getLastLogin();
         this.name = createdUser.getName();
         this.surname = createdUser.getSurname();
-        this.desc = createdUser.getDesc();
+        this.description = createdUser.getDescription();
         this.role = createdUser.getRole();
     }
 }

@@ -19,7 +19,7 @@ public class FriendsService implements IFriendsService {
 
     final FriendReqRepo friendReqRepo;
 
-    @Autowired
+
     public FriendsService(UserRepo userRepo, FriendReqRepo friendReqRepo) {
         this.userRepo = userRepo;
         this.friendReqRepo = friendReqRepo;
@@ -28,8 +28,8 @@ public class FriendsService implements IFriendsService {
     @Override
     public List<User> yourFriends(User user) {
         List<User> allusers = userRepo.findAll();
-        List<FriendReq> friendsyousent = friendReqRepo.findAllByApproved_AcceptedAndFrom(user);
-        List<FriendReq> friendsyourecived = friendReqRepo.findAllByApproved_AcceptedAndTo(user);
+        List<FriendReq> friendsyousent = friendReqRepo.findAllByApprovedAndFrom(ERequestState.ACCEPTED,user);
+        List<FriendReq> friendsyourecived = friendReqRepo.findAllByApprovedAndTo(ERequestState.ACCEPTED,user);
         allusers.removeAll(friendsyousent);
         allusers.removeAll(friendsyourecived);
 
@@ -52,11 +52,11 @@ public class FriendsService implements IFriendsService {
 
     @Override
     public List<FriendReq> waitingRequestForYou(User user) {
-        return friendReqRepo.findAllByApproved_WaitingAndTo(user);
+        return friendReqRepo.findAllByApprovedAndTo(ERequestState.WAITING,user);
     }
 
     @Override
     public List<FriendReq> rejectedRequests(User user) {
-        return friendReqRepo.findAllByApproved_RejectedAndFrom(user);
+        return friendReqRepo.findAllByApprovedAndFrom(ERequestState.REJECTED, user);
     }
 }

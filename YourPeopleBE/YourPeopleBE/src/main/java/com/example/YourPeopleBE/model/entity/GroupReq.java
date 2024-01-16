@@ -18,6 +18,7 @@ public class GroupReq {
     private Long id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ERequestState approved;
 
     @CreationTimestamp

@@ -5,7 +5,6 @@ import com.example.YourPeopleBE.model.entity.Post;
 import com.example.YourPeopleBE.model.entity.Reaction;
 import com.example.YourPeopleBE.model.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

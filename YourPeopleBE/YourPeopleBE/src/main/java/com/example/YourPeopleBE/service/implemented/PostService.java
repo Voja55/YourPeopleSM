@@ -1,6 +1,7 @@
 package com.example.YourPeopleBE.service.implemented;
 
 import com.example.YourPeopleBE.model.dto.PostDTO;
+import com.example.YourPeopleBE.model.entity.ERequestState;
 import com.example.YourPeopleBE.model.entity.Group;
 import com.example.YourPeopleBE.model.entity.Post;
 import com.example.YourPeopleBE.model.entity.User;
@@ -21,7 +22,7 @@ public class PostService implements IPostService {
     final IGroupService groupService;
     final IUserService userService;
 
-    @Autowired
+
     public PostService(PostRepo postRepo, IGroupService groupService, IUserService userService) {
         this.postRepo = postRepo;
         this.groupService = groupService;
@@ -33,7 +34,7 @@ public class PostService implements IPostService {
         Post newPost = new Post();
         newPost.setContent(postDTO.getContent());
         newPost.setPostedBy(postDTO.getPostedBy());
-        newPost.setPostedIn(postDTO.getPostedIn());
+        newPost.setPostedgroup(postDTO.getPostedgroup());
         newPost = postRepo.save(newPost);
         return newPost;
     }
@@ -41,7 +42,7 @@ public class PostService implements IPostService {
     @Override
     public List<Post> findPostsByGroup(Long groupId) {
         Group group = groupService.findGroupById(groupId);
-        List<Post> posts = postRepo.findAllByPostedIn(group);
+        List<Post> posts = postRepo.findAllByPostedgroup(group);
         return posts;
     }
 
@@ -59,5 +60,16 @@ public class PostService implements IPostService {
             return post.get();
         }
         return null;
+    }
+
+    @Override
+    public boolean checkposting(User user, Group group) {
+        ERequestState state = groupService.checkGroupReq(user, group);
+        if (state == null){
+            return false;
+        } else if (state.equals(ERequestState.ACCEPTED)){
+            return true;
+        }
+        return false;
     }
 }

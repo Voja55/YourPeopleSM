@@ -33,9 +33,9 @@ public class Post {
     private User postedBy;
 
     @ManyToOne
-    private Group postedIn;
+    private Group postedgroup;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "comments")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commentedOn")
     @JsonIgnore
     private Set<Comment> comments = new HashSet<Comment>();
 

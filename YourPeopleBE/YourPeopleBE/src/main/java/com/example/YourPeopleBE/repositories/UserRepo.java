@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User, Long> {
 
     public Optional<User> findFirstByUsername(String username);
-    public List<User> findAllByNameContainsOrSurnameContains(String search);
+    public List<User> findAllByNameContainsOrSurnameContains(String search1, String search2);
 }

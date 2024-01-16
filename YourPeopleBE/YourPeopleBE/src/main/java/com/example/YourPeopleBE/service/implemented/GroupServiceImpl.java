@@ -8,7 +8,6 @@ import com.example.YourPeopleBE.model.entity.User;
 import com.example.YourPeopleBE.repositories.GroupRepo;
 import com.example.YourPeopleBE.repositories.GroupReqRepo;
 import com.example.YourPeopleBE.service.IGroupService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,13 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GroupService implements IGroupService {
+public class GroupServiceImpl implements IGroupService {
 
     final GroupRepo groupRepo;
     final GroupReqRepo groupReqRepo;
 
-    @Autowired
-    public GroupService(GroupRepo groupRepo, GroupReqRepo groupReqRepo) {
+
+    public GroupServiceImpl(GroupRepo groupRepo, GroupReqRepo groupReqRepo) {
         this.groupRepo = groupRepo;
         this.groupReqRepo = groupReqRepo;
     }
@@ -78,13 +77,20 @@ public class GroupService implements IGroupService {
     }
 
     @Override
-    public List<Group> yourGroups(User user) {
-        List<GroupReq> approvedGroups = groupReqRepo.findAllByFromAndApproved_Accepted(user);
+    public List<Group> joinedGroups(User user) {
+        //List<GroupReq> approvedGroups = groupReqRepo.findAllByFromAndApproved_Accepted(user);
+        List<GroupReq> approvedGroups = groupReqRepo.findAllByFromAndApproved(user, ERequestState.ACCEPTED);
         List<Group> yourGroups = new ArrayList<>();
         for (GroupReq groupReq: approvedGroups) {
             yourGroups.add(groupReq.getGroup());
         }
         return yourGroups;
+    }
+
+    @Override
+    public List<Group> groupsByYou(User user) {
+        List<Group> madebyyou = groupRepo.findAllByGroupAdminAndSuspendedIsFalse(user);
+        return madebyyou;
     }
 
     @Override
@@ -95,8 +101,14 @@ public class GroupService implements IGroupService {
     @Override
     public List<Group> yourAvailableGroups(User user) {
         List<Group> availableForYou = groupRepo.findAllBySuspendedIsFalse();
-        List<Group> yourGroups = yourGroups(user);
+        List<Group> yourGroups = joinedGroups(user);
         availableForYou.removeAll(yourGroups);
         return availableForYou;
     }
+
+    @Override
+    public List<GroupReq> waitingReqs(Group group) {
+        return groupReqRepo.findAllByGroupAndApproved(group, ERequestState.WAITING);
+    }
+
 }

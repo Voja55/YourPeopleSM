@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "groups")
+@Table(name = "grupe")
 public class Group {
 
     @Id
@@ -44,7 +44,7 @@ public class Group {
     @JsonIgnore
     private Set<GroupReq> requests = new HashSet<GroupReq>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "postedIn")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "postedgroup")
     @JsonIgnore
     private Set<Post> posts = new HashSet<Post>();
 

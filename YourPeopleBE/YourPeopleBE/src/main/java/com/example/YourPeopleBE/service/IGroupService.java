@@ -14,9 +14,12 @@ public interface IGroupService {
     Group findGroupById (Long groupId);
 
     GroupReq sendGroupReq (User user, Group group);
-    List<Group> yourGroups(User user);
+    List<Group> joinedGroups(User user);
+    List<Group> groupsByYou(User user);
     List<Group> availableGroups();
     List<Group> yourAvailableGroups(User user);
+
+    List<GroupReq> waitingReqs(Group group);
 
     ERequestState checkGroupReq(User user, Group group);
 }

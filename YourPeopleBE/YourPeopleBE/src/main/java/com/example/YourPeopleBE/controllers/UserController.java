@@ -123,7 +123,7 @@ public class UserController {
         editedUser.setEmail(userDTO.getEmail());
         editedUser.setName(userDTO.getName());
         editedUser.setSurname(userDTO.getSurname());
-        editedUser.setDesc(userDTO.getDesc());
+        editedUser.setDescription(userDTO.getDescription());
 
         editedUser = userService.updateUserInfo(editedUser);
 

@@ -37,7 +37,7 @@ public class UserService implements IUserService {
         newUser.setEmail(userDTO.getEmail());
         newUser.setName(userDTO.getName());
         newUser.setSurname(userDTO.getSurname());
-        newUser.setDesc(userDTO.getDesc());
+        newUser.setDescription(userDTO.getDescription());
         newUser.setRole(ERole.USER);
         newUser = userRepo.save(newUser);
         return newUser;
@@ -51,7 +51,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> searchUsers(String searchparam) {
-        List<User> searchedUsers = userRepo.findAllByNameContainsOrSurnameContains(searchparam);
+        List<User> searchedUsers = userRepo.findAllByNameContainsOrSurnameContains(searchparam, searchparam);
         return searchedUsers;
     }
 

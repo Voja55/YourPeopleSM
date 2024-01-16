@@ -33,8 +33,8 @@ public class User {
     private String name;
     @Column(nullable = false)
     private String surname;
-    @Column()
-    private String desc;
+    @Column
+    private String description;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
