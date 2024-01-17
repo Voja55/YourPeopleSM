@@ -2,6 +2,7 @@ package com.example.YourPeopleBE.controllers;
 
 import com.example.YourPeopleBE.model.dto.GroupDTO;
 import com.example.YourPeopleBE.model.dto.GroupReqDTO;
+import com.example.YourPeopleBE.model.entity.ERequestState;
 import com.example.YourPeopleBE.model.entity.Group;
 import com.example.YourPeopleBE.model.entity.GroupReq;
 import com.example.YourPeopleBE.model.entity.User;
@@ -35,10 +36,10 @@ public class GroupController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GroupDTO> createGroup(@RequestBody @Validated GroupDTO newGroup, Principal userinfo) {
 
-        Group createdGroup = groupService.createGroup(newGroup);
-        if (createdGroup == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-        }
+//        Group createdGroup = groupService.createGroup(newGroup);
+//        if (createdGroup == null) {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+//        }
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
@@ -58,22 +59,20 @@ public class GroupController {
 
     @PostMapping("/request{groupId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<GroupReqDTO> createGroupReq(@RequestBody @Validated GroupDTO newGroup, Principal userinfo) {
+    public ResponseEntity<GroupReqDTO> createGroupReq(@PathVariable(value = "groupId") Long id, Principal userinfo) {
 
-        Group createdComm = groupService.createGroup(newGroup);
-        if (createdComm == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-        }
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
+        Group group = groupService.findGroupById(id);
+        if (group == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
 
-        newGroup.setGroupAdmin(user);
+        GroupReqDTO groupReqDTO =new GroupReqDTO(groupService.sendGroupReq(user, group));
 
-        GroupDTO groupDTO = new GroupDTO(groupService.createGroup(newGroup));
-
-        return new ResponseEntity(groupDTO, HttpStatus.CREATED);
+        return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -111,5 +110,31 @@ public class GroupController {
             return groupService.waitingReqs(group);
         }
         return null;
+    }
+
+    @PostMapping("/request/accept{reqId}")
+    public ResponseEntity<GroupReqDTO> acceptReq(Principal userInfo, @PathVariable(value = "reqId") Long id){
+        User user = userService.findByUsername(userInfo.getName());
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        GroupReq proccessedGroupReq = groupService.findGroupReqById(id);
+        proccessedGroupReq.setApproved(ERequestState.ACCEPTED);
+        GroupReqDTO groupReqDTO = new GroupReqDTO(groupService.updateGroupReq(proccessedGroupReq));
+
+        return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/request/reject{reqId}")
+    public ResponseEntity<GroupReqDTO> rejectReq(Principal userInfo, @PathVariable(value = "reqId") Long id){
+        User user = userService.findByUsername(userInfo.getName());
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        GroupReq proccessedGroupReq = groupService.findGroupReqById(id);
+        proccessedGroupReq.setApproved(ERequestState.REJECTED);
+        GroupReqDTO groupReqDTO = new GroupReqDTO(groupService.updateGroupReq(proccessedGroupReq));
+
+        return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
     }
 }

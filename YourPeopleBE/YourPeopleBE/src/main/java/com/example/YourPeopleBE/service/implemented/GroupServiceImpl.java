@@ -77,6 +77,20 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Override
+    public GroupReq findGroupReqById(Long id) {
+        Optional<GroupReq> groupReq = groupReqRepo.findById(id);
+        if(groupReq.isEmpty()){
+            return null;
+        }
+        return groupReq.get();
+    }
+
+    @Override
+    public GroupReq updateGroupReq(GroupReq groupReq) {
+        return groupReqRepo.save(groupReq);
+    }
+
+    @Override
     public List<Group> joinedGroups(User user) {
         //List<GroupReq> approvedGroups = groupReqRepo.findAllByFromAndApproved_Accepted(user);
         List<GroupReq> approvedGroups = groupReqRepo.findAllByFromAndApproved(user, ERequestState.ACCEPTED);

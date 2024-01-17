@@ -14,6 +14,8 @@ public interface IGroupService {
     Group findGroupById (Long groupId);
 
     GroupReq sendGroupReq (User user, Group group);
+    GroupReq findGroupReqById(Long id);
+    GroupReq updateGroupReq(GroupReq groupReq);
     List<Group> joinedGroups(User user);
     List<Group> groupsByYou(User user);
     List<Group> availableGroups();

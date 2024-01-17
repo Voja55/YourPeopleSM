@@ -120,6 +120,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+        //TODO:Provera ako je null da ne menja nista
         editedUser.setEmail(userDTO.getEmail());
         editedUser.setName(userDTO.getName());
         editedUser.setSurname(userDTO.getSurname());
