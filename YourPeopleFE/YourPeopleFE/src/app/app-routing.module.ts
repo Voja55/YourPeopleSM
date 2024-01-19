@@ -6,7 +6,7 @@ import {LoginComponent} from "./components/acc/login/login.component";
 import {RegisterComponent} from "./components/acc/register/register.component";
 
 const routes: Routes = [
-  {path: '', component: HomePageComponent},
+  {path: 'home', component: HomePageComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent}

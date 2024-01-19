@@ -1,6 +1,7 @@
 package com.example.YourPeopleBE.controllers;
 
 import com.example.YourPeopleBE.model.dto.ReactionDTO;
+import com.example.YourPeopleBE.model.dto.ReactionTypeDTO;
 import com.example.YourPeopleBE.model.entity.*;
 import com.example.YourPeopleBE.service.ICommentService;
 import com.example.YourPeopleBE.service.IPostService;
@@ -30,9 +31,9 @@ public class ReactController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/post/{postID}/upvote")
+    @PostMapping("/react/post/{postID}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ReactionDTO> reactPost(@RequestBody String reactiontype, @PathVariable(value = "postID") Long postId, Principal userinfo){
+    public ResponseEntity<ReactionDTO> reactPost(@RequestBody ReactionTypeDTO reactiontype, @PathVariable(value = "postID") Long postId, Principal userinfo){
 
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
@@ -43,7 +44,7 @@ public class ReactController {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
         ReactionDTO reactDTO = new ReactionDTO();
-        reactDTO.setReactionType(EReactionType.valueOf(reactiontype));
+        reactDTO.setReactionType(EReactionType.valueOf(reactiontype.getReaction()));
         reactDTO.setReactedBy(user);
         reactDTO.setReactedOnPost(post);
 
@@ -54,9 +55,9 @@ public class ReactController {
         return new ResponseEntity(newReactDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/comment/{commentId}/upvote")
+    @PostMapping("/react/comment/{commentId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ReactionDTO> reactComment(@RequestBody String reactiontype, @PathVariable(value = "commentId") Long commentId, Principal userinfo){
+    public ResponseEntity<ReactionDTO> reactComment(@RequestBody ReactionTypeDTO reactiontype, @PathVariable(value = "commentId") Long commentId, Principal userinfo){
 
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
@@ -67,7 +68,7 @@ public class ReactController {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
         ReactionDTO reactDTO = new ReactionDTO();
-        reactDTO.setReactionType(EReactionType.valueOf(reactiontype));
+        reactDTO.setReactionType(EReactionType.valueOf(reactiontype.getReaction()));
         reactDTO.setReactedBy(user);
         reactDTO.setReactedOnComment(comment);
 

@@ -22,6 +22,7 @@ public interface IGroupService {
     List<Group> yourAvailableGroups(User user);
 
     List<GroupReq> waitingReqs(Group group);
+    List<GroupReq> acceptedReqs(Group group);
 
     ERequestState checkGroupReq(User user, Group group);
 }

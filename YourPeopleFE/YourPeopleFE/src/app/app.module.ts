@@ -10,6 +10,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { PostsComponent } from './components/content/posts/posts.component';
 import { CommentsComponent } from './components/content/comments/comments.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {TokenInterceptorService} from "./services/authentification/token-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -24,9 +27,14 @@ import { CommentsComponent } from './components/content/comments/comments.compon
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+  //  { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

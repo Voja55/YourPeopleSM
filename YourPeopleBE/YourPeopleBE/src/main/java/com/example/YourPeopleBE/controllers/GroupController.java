@@ -2,6 +2,7 @@ package com.example.YourPeopleBE.controllers;
 
 import com.example.YourPeopleBE.model.dto.GroupDTO;
 import com.example.YourPeopleBE.model.dto.GroupReqDTO;
+import com.example.YourPeopleBE.model.dto.UserDTO;
 import com.example.YourPeopleBE.model.entity.ERequestState;
 import com.example.YourPeopleBE.model.entity.Group;
 import com.example.YourPeopleBE.model.entity.GroupReq;
@@ -16,7 +17,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("group")
@@ -77,26 +80,55 @@ public class GroupController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public GroupDTO groups(){
-        return modelMapper.map(groupService.availableGroups(), GroupDTO.class);
+    public List<GroupDTO> groups(){
+        List<Group> groups = groupService.availableGroups();
+        List<GroupDTO> groupDTOList = new ArrayList<>();
+        for (Group group:groups) {
+            groupDTOList.add(modelMapper.map(group, GroupDTO.class));
+        }
+        return groupDTOList;
     }
 
     @GetMapping("/foryou")
-    public GroupDTO groupsforyou(Principal userinfo){
+    public List<GroupDTO> groupsforyou(Principal userinfo){
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return null;
         }
-        return modelMapper.map(groupService.yourAvailableGroups(user), GroupDTO.class);
+        List<Group> groups = groupService.yourAvailableGroups(user);
+        List<GroupDTO> groupDTOList = new ArrayList<>();
+        for (Group group:groups) {
+            groupDTOList.add(modelMapper.map(group, GroupDTO.class));
+        }
+        return groupDTOList;
     }
 
     @GetMapping("/yourGroups")
-    public GroupDTO yourGroups(Principal userinfo){
+    public List<GroupDTO> yourGroups(Principal userinfo){
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return null;
         }
-        return modelMapper.map(groupService.groupsByYou(user), GroupDTO.class);
+        List<Group> groups = groupService.groupsByYou(user);
+        List<GroupDTO> groupDTOList = new ArrayList<>();
+        for (Group group:groups) {
+            groupDTOList.add(modelMapper.map(group, GroupDTO.class));
+        }
+        return groupDTOList;
+    }
+
+    @GetMapping("/{groupId}/members")
+    public List<UserDTO> groupMembers(@PathVariable(value = "groupId") Long id){
+        Group group = groupService.findGroupById(id);
+        if (group == null){
+            return null;
+        }
+        List<GroupReq> accpeted = groupService.acceptedReqs(group);
+        List<UserDTO> users = new ArrayList<>();
+        for(GroupReq req : accpeted){
+            users.add(modelMapper.map(req.getFrom(), UserDTO.class));
+        }
+        return users;
     }
 
     @GetMapping("/{groupId}/requestswaiting")
@@ -106,7 +138,8 @@ public class GroupController {
             return null;
         }
         Group group = groupService.findGroupById(id);
-        if (group.getGroupAdmin() == user){
+        User admin = group.getGroupAdmin();
+        if (admin.getUsername().equals(user.getUsername())){
             return groupService.waitingReqs(group);
         }
         return null;

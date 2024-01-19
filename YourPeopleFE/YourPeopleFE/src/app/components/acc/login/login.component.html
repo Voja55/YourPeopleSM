@@ -1,19 +1,25 @@
 <div class="login-container">
   <div class="login-box">
     <div class="box-title">Login</div>
-    <form>
+    <form (ngSubmit)="login()">
       <div class="input-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required [(ngModel)]="username">
       </div>
 
       <div class="input-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required [(ngModel)]="password">
       </div>
 
       <button type="submit" class="login-btn">LOGIN</button>
     </form>
+    <div *ngIf="showErrorMessage" class="error-message">
+      Incorrect credentials. Please try again.
+    </div>
+    <div *ngIf="showEmptyInputMessage" class="error-message">
+      Please fill in both username and password.
+    </div>
     <br>
     <button routerLink="/register" class="register-btn">REGISTER</button>
   </div>

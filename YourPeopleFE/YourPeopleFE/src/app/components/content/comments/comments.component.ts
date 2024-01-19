@@ -11,10 +11,20 @@ import {group} from "@angular/animations";
 export class CommentsComponent {
   @Input() post: Post | undefined;
   repliesToggle: boolean = false;
-  replies: Comment[];
+  replytext: any;
+  comments: any;
+  replies: any;
 
   openReplies(){
 
     this.repliesToggle = !this.repliesToggle;
+  }
+
+  reply() {
+    if (this.replytext.trim() ==''){
+      console.log("input is empty")
+    } else {
+      //comment service
+    }
   }
 }

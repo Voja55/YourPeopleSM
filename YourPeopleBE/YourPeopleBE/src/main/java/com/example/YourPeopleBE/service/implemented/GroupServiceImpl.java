@@ -125,4 +125,9 @@ public class GroupServiceImpl implements IGroupService {
         return groupReqRepo.findAllByGroupAndApproved(group, ERequestState.WAITING);
     }
 
+    @Override
+    public List<GroupReq> acceptedReqs(Group group) {
+        return groupReqRepo.findAllByGroupAndApproved(group, ERequestState.ACCEPTED);
+    }
+
 }
