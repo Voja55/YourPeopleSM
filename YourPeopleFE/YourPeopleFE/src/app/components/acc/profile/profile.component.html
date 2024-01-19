@@ -1,6 +1,6 @@
 <div class="profile-container">
   <div class="profile-box">
-    <div>
+    <div *ngIf="editToggle">
       <div class="input-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" value="{{user.name}}" readonly>
@@ -25,7 +25,47 @@
         <input type="text" id="desc" name="email" value="{{user.description}}" readonly>
       </div>
 
-      <button (click)="editProfile()" class="edit-btn">Change Info</button>
+      <button (click)="editProfileToggle()" class="edit-btn">Change Info</button>
+    </div>
+    <div *ngIf="editToggle">
+      <form [formGroup]="editForm" ]>
+        <div class="input-group">
+          <label for="name">Name</label>
+          <input type="text" id="nameEdit" name="nameEdit" value="{{user.name}}">
+          <span *ngIf="!editForm.get('nameEdit')?.valid && editForm.get('nameEdit')?.touched"
+                class="help-block">This field must be filled </span>
+        </div>
+        <div class="input-group">
+          <label for="surname">Surname</label>
+          <input type="text" id="surnameEdit" name="surnameEdit" value="{{user.surname}}">
+          <span *ngIf="!editForm.get('surnameEdit')?.valid && editForm.get('surnameEdit')?.touched"
+                class="help-block">This field must be filled </span>
+        </div>
+
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="usernameEdit" name="usernameEdit" value="{{user.username}}">
+          <span *ngIf="!editForm.get('usernameEdit')?.valid && editForm.get('usernameEdit')?.touched"
+                class="help-block">This field must be filled </span>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="text" id="emailEdit" name="emailEdit" value="{{user.email}}">
+          <span *ngIf="!editForm.get('emailEdit')?.valid && editForm.get('emailEdit')?.touched"
+                class="help-block">This field must be filled </span>
+        </div>
+
+        <div class="input-group">
+          <label for="desc">Description</label>
+          <input type="text" id="descEdit" name="descEdit" value="{{user.description}}">
+          <span *ngIf="!editForm.get('descEdit')?.valid && editForm.get('descEdit')?.touched"
+                class="help-block">This field must be filled </span>
+        </div>
+
+        <button (click)="AcceptEdit()" class="edit-btn">Save</button>
+      </form>
+      <button (click)="editProfileToggle()" class="edit-btn">Cancel</button>
     </div>
   </div>
   <div class="user-group-box">

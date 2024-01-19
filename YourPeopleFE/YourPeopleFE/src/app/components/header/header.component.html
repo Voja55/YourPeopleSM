@@ -5,12 +5,12 @@
     <button>Search</button>
   </div>
   <nav>
-    <button routerLink="/">Home</button>
-    <button routerLink="/groups">Groups</button>
+    <button *ngIf="logged" routerLink="/home">Home</button>
+    <button *ngIf="logged" routerLink="/groups">Groups</button>
     <button *ngIf="!logged" routerLink="/login">Login</button>
     <button *ngIf="!logged" routerLink="/register">Register</button>
-    <button routerLink="/friends">Friends</button>
-    <button routerLink="/profile">Profile</button>
+    <button *ngIf="logged" routerLink="/friends">Friends</button>
+    <button *ngIf="logged" routerLink="/profile">Profile</button>
     <button *ngIf="logged" (click)="logout()">Logout</button>
   </nav>
 </header>

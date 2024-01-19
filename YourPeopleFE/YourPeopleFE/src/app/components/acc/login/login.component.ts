@@ -30,7 +30,7 @@ export class LoginComponent{
        this.showEmptyInputMessage = true
     } else {
        this.authService.login(username, password).subscribe(data => {
-       this.router.navigateByUrl('/profile');
+       this.router.navigateByUrl('/home');
      }, error => {
        this.showErrorMessage = true;
        throwError(error);
