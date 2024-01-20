@@ -13,6 +13,9 @@ import { CommentsComponent } from './components/content/comments/comments.compon
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenInterceptorService} from "./services/authentification/token-interceptor.service";
+import { SearchFriendsComponent } from './components/content/search/search-friends/search-friends.component';
+import { UserBoxComponent } from './components/content/user-box/user-box.component';
+import { ProfileVisitComponent } from './components/content/profile-visit/profile-visit.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import {TokenInterceptorService} from "./services/authentification/token-interce
     HeaderComponent,
     HomePageComponent,
     PostsComponent,
-    CommentsComponent
+    CommentsComponent,
+    SearchFriendsComponent,
+    UserBoxComponent,
+    ProfileVisitComponent
   ],
   imports: [
     BrowserModule,

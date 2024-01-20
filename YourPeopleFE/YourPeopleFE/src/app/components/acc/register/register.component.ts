@@ -34,13 +34,13 @@ export class RegisterComponent implements OnInit{
 
   ngOnInit() {
     this.registerForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      surname: new FormControl('', Validators.required),
-      username: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
+      name: new FormControl(''),
+      surname: new FormControl(''),
+      username: new FormControl(''),
+      email: new FormControl(''),
       description: new FormControl(''),
-      password1: new FormControl('', Validators.required),
-      password2: new FormControl('', Validators.required)
+      password1: new FormControl(''),
+      password2: new FormControl('')
     })
   }
 
@@ -56,6 +56,8 @@ export class RegisterComponent implements OnInit{
       this.passMatch = true;
     }
     this.registerPayload.password = password1;
+
+    console.log(this.registerPayload);
 
     this.authService.register(this.registerPayload).subscribe(data => {
       this.router.navigate(['/login'],

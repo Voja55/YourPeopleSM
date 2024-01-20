@@ -1,0 +1,13 @@
+<div>
+  <h2>Search result</h2>
+  <div *ngFor="let user of users">
+    <div class="user-info">
+      <img src="user-placeholder.jpg">
+      <a class="username">{{ user.username }}</a>
+      <p class="name-surname">{{user.name}} {{user.surname}}</p>
+      <p class="description">{{user.description}}</p>
+      <button (click)="gotoProfile(user.username)">See profile</button>
+      <button>Send friend request</button>
+    </div>
+  </div>
+</div>

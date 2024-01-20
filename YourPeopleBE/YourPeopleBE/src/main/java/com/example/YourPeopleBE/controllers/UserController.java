@@ -82,6 +82,12 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/search/{searchParam}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public List<User> searchUsers(@PathVariable(value = "searchParam") String searchParam) {
+        return userService.searchUsers(searchParam);
+    }
+
     @GetMapping("/profile")
     @CrossOrigin
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -89,6 +95,7 @@ public class UserController {
         return modelMapper.map(userService.findByUsername(user.getName()), UserDTO.class);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping(value = "/change-password", consumes = "application/json")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> ChangePassword(@RequestBody @Validated PassChangeDTO newPass, Principal user) {
@@ -102,14 +109,13 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        //TODO: enkodovanje sifre i poredjenje
-
         newpassUser.setPassword(passwordEncoder.encode(newPass.getNewPass1()));
         newpassUser = userService.updateUserInfo(newpassUser);
 
         return new ResponseEntity(null, HttpStatus.ACCEPTED);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping(value = "/edit", consumes = "application/json")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserDTO> updateUser(@RequestBody @Validated UserDTO userDTO, Principal user) {

@@ -4,48 +4,48 @@
     <form [formGroup]="registerForm" (ngSubmit)="register()">
       <div class="input-group">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your name" required>
-        <span *ngIf="!registerForm.get('name')?.valid && registerForm.get('name')?.touched"
-              class="help-block">This field must be filled </span>
+        <input type="text" id="name" name="name" placeholder="Enter your name" [formControlName]="'name'" required>
+<!--        <span *ngIf="!registerForm.get('name')?.valid && registerForm.get('name')?.touched"-->
+<!--              class="help-block">This field must be filled </span>-->
       </div>
       <div class="input-group">
         <label for="username">Surname</label>
-        <input type="text" id="surname" name="surname" placeholder="Enter your surname" required>
-        <span *ngIf="!registerForm.get('surname')?.valid && registerForm.get('surname')?.touched"
-              class="help-block">This field must be filled </span>
+        <input type="text" id="surname" name="surname" placeholder="Enter your surname" [formControlName]="'surname'" required>
+<!--        <span *ngIf="!registerForm.get('surname')?.valid && registerForm.get('surname')?.touched"-->
+<!--              class="help-block">This field must be filled </span>-->
       </div>
 
       <div class="input-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-        <span *ngIf="!registerForm.get('username')?.valid && registerForm.get('username')?.touched"
-              class="help-block">This field must be filled </span>
+        <input type="text" id="username" name="username" placeholder="Enter your username" [formControlName]="'username'" required>
+<!--        <span *ngIf="!registerForm.get('username')?.valid && registerForm.get('username')?.touched"-->
+<!--              class="help-block">This field must be filled </span>-->
       </div>
 
       <div class="input-group">
         <label for="username">Email</label>
-        <input type="text" id="email" name="email" placeholder="Enter your email"  required>
-        <span *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched"
-              class="help-block">This field must be filled </span>
+        <input type="text" id="email" name="email" placeholder="Enter your email" [formControlName]="'email'" required>
+<!--        <span *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched"-->
+<!--              class="help-block">This field must be filled </span>-->
       </div>
 
       <div class="input-group">
-        <label for="username">Email</label>
+        <label for="username">Description</label>
         <input type="text" id="description" name="description" placeholder="Enter your description" [formControlName]="'description'" required>
       </div>
 
       <div class="input-group">
         <label for="password1">Password</label>
-        <input type="password" id="password1" name="password" placeholder="Enter your password" required>
-        <span *ngIf="!registerForm.get('password1')?.valid && registerForm.get('password1')?.touched"
-              class="help-block">This field must be filled </span>
+        <input type="password" id="password1" name="password" placeholder="Enter your password" [formControlName]="'password1'" required>
+<!--        <span *ngIf="!registerForm.get('password1')?.valid && registerForm.get('password1')?.touched"-->
+<!--              class="help-block">This field must be filled </span>-->
       </div>
 
       <div class="input-group">
         <label for="password2">Password</label>
-        <input type="password" id="password2" name="password" placeholder="Repeat your password" required>
-        <span *ngIf="!registerForm.get('password2')?.valid && registerForm.get('password2')?.touched"
-              class="help-block">This field must be filled </span>
+        <input type="password" id="password2" name="password" placeholder="Repeat your password"  [formControlName]="'password2'" required>
+<!--        <span *ngIf="!registerForm.get('password2')?.valid && registerForm.get('password2')?.touched"-->
+<!--              class="help-block">This field must be filled </span>-->
       </div>
 
       <div *ngIf="showEmptyInputMessage" class="error-message">

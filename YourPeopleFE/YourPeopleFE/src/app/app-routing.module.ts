@@ -4,12 +4,14 @@ import {HomePageComponent} from "./components/home-page/home-page.component";
 import {ProfileComponent} from "./components/acc/profile/profile.component";
 import {LoginComponent} from "./components/acc/login/login.component";
 import {RegisterComponent} from "./components/acc/register/register.component";
+import {SearchFriendsComponent} from "./components/content/search/search-friends/search-friends.component";
 
 const routes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent}
+  {path: 'register', component: RegisterComponent},
+  {path: 'search-result', component: SearchFriendsComponent}
 ];
 
 @NgModule({

@@ -83,6 +83,7 @@ export class AuthService {
     const token = sessionStorage.getItem("currentUser");
     if(token){
       const currentRole = this.jwtUtilService.getRole(token);
+      console.log(currentRole);
       if (role === currentRole) {
         return true;
       }

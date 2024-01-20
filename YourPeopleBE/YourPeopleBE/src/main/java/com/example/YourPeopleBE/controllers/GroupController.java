@@ -7,6 +7,7 @@ import com.example.YourPeopleBE.model.entity.ERequestState;
 import com.example.YourPeopleBE.model.entity.Group;
 import com.example.YourPeopleBE.model.entity.GroupReq;
 import com.example.YourPeopleBE.model.entity.User;
+import com.example.YourPeopleBE.model.frontendDTO.GroupFEDTO;
 import com.example.YourPeopleBE.service.IGroupService;
 import com.example.YourPeopleBE.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -104,17 +105,23 @@ public class GroupController {
     }
 
     @GetMapping("/yourGroups")
-    public List<GroupDTO> yourGroups(Principal userinfo){
+    public List<GroupFEDTO> yourGroups(Principal userinfo){
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return null;
         }
         List<Group> groups = groupService.groupsByYou(user);
-        List<GroupDTO> groupDTOList = new ArrayList<>();
+        List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
         for (Group group:groups) {
-            groupDTOList.add(modelMapper.map(group, GroupDTO.class));
+            GroupFEDTO groupCopy = new GroupFEDTO();
+            groupCopy.setId(group.getId());
+            groupCopy.setName(group.getName());
+            groupCopy.setDescription(group.getDescription());
+            groupCopy.setCreationDate(group.getCreationDate());
+            groupCopy.setGroupAdmin(group.getGroupAdmin().getUsername());
+            groupFEDTOList.add(groupCopy);
         }
-        return groupDTOList;
+        return groupFEDTOList;
     }
 
     @GetMapping("/{groupId}/members")

@@ -3,6 +3,7 @@ package com.example.YourPeopleBE.controllers;
 import com.example.YourPeopleBE.model.dto.PostDTO;
 import com.example.YourPeopleBE.model.dto.PostStatDTO;
 import com.example.YourPeopleBE.model.entity.*;
+import com.example.YourPeopleBE.model.frontendDTO.PostFEDTO;
 import com.example.YourPeopleBE.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -81,9 +83,24 @@ public class PostController {
 
     @GetMapping("/userPosts")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public List<Post> userPosts(Principal userInfo){
+    public List<PostFEDTO> userPosts(Principal userInfo){
         User user = userService.findByUsername(userInfo.getName());
-        return postService.findPostsByUser(user.getId());
+        List<Post> posts = postService.findPostsByUser(user.getId());
+        List<PostFEDTO> postsfe = new ArrayList<>();
+        for (Post post: posts) {
+            PostFEDTO newPost = new PostFEDTO();
+            newPost.setId(post.getId());
+            newPost.setUsername(post.getPostedBy().getUsername());
+            newPost.setGroupName(post.getPostedgroup().getName());
+            newPost.setGroupId(post.getPostedgroup().getId());
+            newPost.setContent(post.getContent());
+            newPost.setCreationDate(post.getCreationDate());
+            List<Reaction> reactions =reactionService.findReactionsOnPost(post.getId());
+            newPost.setReactionStat(reactions.size());
+
+            postsfe.add(newPost);
+        }
+        return postsfe;
     }
 
     @GetMapping("/post/{postId}")

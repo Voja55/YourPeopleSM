@@ -1,43 +1,86 @@
-.post {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 20px;
+div {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* User Info */
+.user-info {
+  display: flex;
+  align-items: center;
 }
 
 .user-info {
   display: flex;
-  align-items: center;
+  flex-direction: column; /* Make child elements stack vertically */
+  align-items: flex-start;
   margin-bottom: 10px;
-}
-
-.user-info img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
 }
 
 .username {
+  font-size: 16px;
   font-weight: bold;
+  color: #00ff00; /* Green color */
+  text-decoration: none;
+}
+
+/* Group Info */
+.group-info {
+  margin-bottom: 15px;
 }
 
 .group-name {
-  color: #888;
-  margin-bottom: 5px;
+  font-size: 14px;
+  color: #00ff00; /* Green color */
 }
 
+/* Post Content */
 .post-content {
-  margin-bottom: 10px;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
+/* Reactions */
 .reactions {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 2px;
 }
 
-.reactions button {
+button {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  margin-right: 10px;
+}
+
+button img {
+  width: 20px;
+  height: 20px;
+}
+
+span {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+/* Open Comments Button */
+.open-comments-btn {
+  background-color: #00ff00; /* Green color */
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Comments Section */
+h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #00ff00; /* Green color */
 }
