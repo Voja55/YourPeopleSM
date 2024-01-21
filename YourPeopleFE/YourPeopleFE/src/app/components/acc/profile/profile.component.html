@@ -1,114 +1,115 @@
 <div class="profile-container">
-  <div class="profile-box">
-    <div class="input-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" value="{{user.username}}" readonly>
+  <div class="title">
+    <img src="assets/imgs/profile.png" alt="profilepic">
+    <h1>{{user.username}}</h1>
+  </div>
+  <div class="profile-info-div" *ngIf="!editToggle && !passToggle">
+    <div class="name-surname-box">
+      <div class="name-inputgroup">
+        <label for="name">Name</label>
+        <input class="name-input" type="text" id="name" name="name" value="{{user.name}}" readonly>
+      </div>
+      <div class="surname-inputgroup">
+        <label for="surname">Surname</label>
+        <input class="surname-input" type="text" id="surname" name="surname" value="{{user.surname}}" readonly>
+      </div>
     </div>
-    <div *ngIf="!editToggle && !passToggle">
+    <div class="email-inputgroup">
+      <label for="email">Email</label>
+      <input class="email-input" type="text" id="email" name="email" value="{{user.email}}" readonly>
+    </div>
+
+    <div class="description-inputgroup">
+      <label for="desc">Description</label>
+      <input class="desc-input" type="text" id="desc" name="description" value="{{user.description}}" readonly>
+    </div>
+
+    <button (click)="editProfileToggle()" class="edit-btn">Change Info</button>
+    <button (click)="passChangeToggle()" class="edit-btn">Change Password</button>
+  </div>
+  <div *ngIf="editToggle">
+    <form [formGroup]="editForm" (ngSubmit)="AcceptEdit()">
       <div class="input-group">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" value="{{user.name}}" readonly>
+        <input type="text" id="nameEdit" name="nameEdit" [formControlName]="'nameEdit'">
+        <span *ngIf="!editForm.get('nameEdit')?.valid && editForm.get('nameEdit')?.touched"
+              class="help-block">This field must be filled </span>
       </div>
       <div class="input-group">
         <label for="surname">Surname</label>
-        <input type="text" id="surname" name="surname" value="{{user.surname}}" readonly>
+        <input type="text" id="surnameEdit" name="surnameEdit" [formControlName]="'surnameEdit'">
+        <span *ngIf="!editForm.get('surnameEdit')?.valid && editForm.get('surnameEdit')?.touched"
+              class="help-block">This field must be filled </span>
       </div>
 
       <div class="input-group">
         <label for="email">Email</label>
-        <input type="text" id="email" name="email" value="{{user.email}}" readonly>
+        <input type="text" id="emailEdit" name="emailEdit" [formControlName]="'emailEdit'">
+        <span *ngIf="!editForm.get('emailEdit')?.valid && editForm.get('emailEdit')?.touched"
+              class="help-block">This field must be filled </span>
       </div>
 
       <div class="input-group">
         <label for="desc">Description</label>
-        <input type="text" id="desc" name="email" value="{{user.description}}" readonly>
+        <input type="text" id="descEdit" name="descEdit" [formControlName]="'descEdit'">
+        <span *ngIf="!editForm.get('descEdit')?.valid && editForm.get('descEdit')?.touched"
+              class="help-block">This field must be filled </span>
       </div>
 
-      <button (click)="editProfileToggle()" class="edit-btn">Change Info</button>
-      <button (click)="passChangeToggle()" class="passChange-btn">Change Password</button>
-    </div>
-    <div *ngIf="editToggle">
-      <form [formGroup]="editForm" (ngSubmit)="AcceptEdit()">
-        <div class="input-group">
-          <label for="name">Name</label>
-          <input type="text" id="nameEdit" name="nameEdit" [formControlName]="'nameEdit'">
-          <span *ngIf="!editForm.get('nameEdit')?.valid && editForm.get('nameEdit')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-        <div class="input-group">
-          <label for="surname">Surname</label>
-          <input type="text" id="surnameEdit" name="surnameEdit" [formControlName]="'surnameEdit'">
-          <span *ngIf="!editForm.get('surnameEdit')?.valid && editForm.get('surnameEdit')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-
-        <div class="input-group">
-          <label for="email">Email</label>
-          <input type="text" id="emailEdit" name="emailEdit" [formControlName]="'emailEdit'">
-          <span *ngIf="!editForm.get('emailEdit')?.valid && editForm.get('emailEdit')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-
-        <div class="input-group">
-          <label for="desc">Description</label>
-          <input type="text" id="descEdit" name="descEdit" [formControlName]="'descEdit'">
-          <span *ngIf="!editForm.get('descEdit')?.valid && editForm.get('descEdit')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-
-        <button type="submit" class="edit-btn">Save</button>
-      </form>
-      <button (click)="editProfileToggle()" class="edit-btn">Cancel</button>
-    </div>
-    <div *ngIf="passToggle">
-      <form [formGroup]="passForm" (ngSubmit)="ChangePass()">
-        <div class="input-group">
-          <label for="name">Enter your old password:</label>
-          <input type="password" id="oldPass" name="oldPass" [formControlName]="'oldPass'">
-          <span *ngIf="!editForm.get('oldPass')?.valid && editForm.get('oldPass')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-        <div class="input-group">
-          <label for="surname">New password:</label>
-          <input type="password" id="newPass1" name="newPass1" [formControlName]="'newPass1'">
-          <span *ngIf="!editForm.get('newPass1')?.valid && editForm.get('newPass1')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-
-        <div class="input-group">
-          <label for="email">Repeat new password</label>
-          <input type="password" id="newPass2" name="newPass2" [formControlName]="'newPass2'">
-          <span *ngIf="!editForm.get('newPass2')?.valid && editForm.get('newPass2')?.touched"
-                class="help-block">This field must be filled </span>
-        </div>
-        <button type="submit" class="edit-btn">Change</button>
-      </form>
-      <button (click)="passChangeToggle()" class="pass-btn">Cancel</button>
-    </div>
+      <button type="submit" class="edit-btn">Save</button>
+    </form>
+    <button (click)="editProfileToggle()" class="edit-btn">Cancel</button>
   </div>
+  <div *ngIf="passToggle">
+    <form [formGroup]="passForm" (ngSubmit)="ChangePass()">
+      <div class="input-group">
+        <label for="name">Enter your old password:</label>
+        <input type="password" id="oldPass" name="oldPass" [formControlName]="'oldPass'">
+        <span *ngIf="!editForm.get('oldPass')?.valid && editForm.get('oldPass')?.touched"
+              class="help-block">This field must be filled </span>
+      </div>
+      <div class="input-group">
+        <label for="surname">New password:</label>
+        <input type="password" id="newPass1" name="newPass1" [formControlName]="'newPass1'">
+        <span *ngIf="!editForm.get('newPass1')?.valid && editForm.get('newPass1')?.touched"
+              class="help-block">This field must be filled </span>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Repeat new password</label>
+        <input type="password" id="newPass2" name="newPass2" [formControlName]="'newPass2'">
+        <span *ngIf="!editForm.get('newPass2')?.valid && editForm.get('newPass2')?.touched"
+              class="help-block">This field must be filled </span>
+      </div>
+      <button type="submit" class="edit-btn">Change</button>
+    </form>
+    <button (click)="passChangeToggle()" class="edit-btn">Cancel</button>
+  </div>
+</div>
+<div class="users-lists">
   <div class="user-group-box">
     <div><h2>Groups by you</h2></div>
     <div *ngFor="let groupByYou of groupsByYou">
       <div class="group-bar">
-        <a class="group-name">{{ groupByYou.name }}</a>
+        <a class="group-name" href="http://localhost:4200/group/{{groupByYou.id}}">{{ groupByYou.name }}</a>
         <p class="group-desc">Description: {{ groupByYou.description}}</p>
       </div>
+    </div>
+  </div>
+  <div class="user-posts">
+    <div *ngFor="let post of posts">
+      <app-posts [post]="post"></app-posts>
     </div>
   </div>
   <div class="user-group-box">
     <div><h2>Joined groups</h2></div>
     <div *ngFor="let yourGroup of yourGroups">
       <div class="group-bar">
-        <a class="group-name">{{ yourGroup.name }}</a>
+        <a class="group-name" href="http://localhost:4200/group/{{yourGroup.id}}">{{ yourGroup.name }}</a>
         <p class="group-desc">Description: {{ yourGroup.description}}</p>
       </div>
     </div>
   </div>
-  <div>
-    <div><h2>Your posts</h2></div>
-    <div *ngFor="let post of posts">
-      <app-posts [post]="post"></app-posts>
-    </div>
-  </div>
 </div>
+
 

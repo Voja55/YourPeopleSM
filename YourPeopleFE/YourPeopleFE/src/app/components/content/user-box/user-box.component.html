@@ -1,1 +1,14 @@
-<p>user-box works!</p>
+<div class="this-body">
+  <div class="username-box">
+    <img src="assets/imgs/profile.png" alt="profilepic">
+    <h3>{{user?.username}}</h3>
+  </div>
+  <div class="name-surname-box">
+    <p>{{user?.name}} {{user?.surname}}</p>
+  </div>
+  <div>
+    <button (click)="gotoProfile(user?.username)">Visit Profile</button>
+    <button *ngIf="!alreadyFriend" (click)="sendRequest(user?.username)">Send friend request</button>
+    <button *ngIf="alreadyFriend" [disabled]="true">Already Friends</button>
+  </div>
+</div>

@@ -8,7 +8,7 @@
     <button *ngIf="logged && admin" routerLink="/users-admin">All Users</button>
     <button *ngIf="logged && admin" routerLink="/groups-admin">All Groups</button>
     <button *ngIf="logged && user" routerLink="/home">Home</button>
-    <button *ngIf="logged && user" routerLink="/groups">Groups</button>
+    <button *ngIf="logged && user" routerLink="/explore-groups">Explore groups</button>
     <button *ngIf="logged && user" routerLink="/friend-reqs">Friend Requests</button>
     <button *ngIf="!logged" routerLink="/login">Login</button>
     <button *ngIf="!logged" routerLink="/register">Register</button>

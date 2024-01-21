@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupServiceImpl implements IGroupService {
@@ -41,6 +42,12 @@ public class GroupServiceImpl implements IGroupService {
 
         newGroup = groupRepo.save(newGroup);
 
+        GroupReq newGroupReq = new GroupReq();
+        newGroupReq.setGroup(newGroup);
+        newGroupReq.setFrom(newGroup.getGroupAdmin());
+        newGroupReq.setApproved(ERequestState.ACCEPTED);
+        groupReqRepo.save(newGroupReq);
+
         return newGroup;
     }
 
@@ -60,6 +67,18 @@ public class GroupServiceImpl implements IGroupService {
             return groupReq.get().getApproved();
         }
         return null;
+    }
+
+    @Override
+    public boolean isJoinedGroup(User user, Group group) {
+        Optional<GroupReq> groupReq = groupReqRepo.findFirstByFromAndGroup(user, group);
+        if (groupReq.isPresent()){
+            if (groupReq.get().getApproved().equals(ERequestState.ACCEPTED)){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     @Override
@@ -116,8 +135,10 @@ public class GroupServiceImpl implements IGroupService {
     public List<Group> yourAvailableGroups(User user) {
         List<Group> availableForYou = groupRepo.findAllBySuspendedIsFalse();
         List<Group> yourGroups = joinedGroups(user);
-        availableForYou.removeAll(yourGroups);
-        return availableForYou;
+        List<Group> finallist = availableForYou.stream().filter(group -> !yourGroups.stream()
+                .anyMatch(g -> g.getId().equals(group.getId()))).collect(Collectors.toList());
+        System.out.println(finallist);
+        return finallist;
     }
 
     @Override

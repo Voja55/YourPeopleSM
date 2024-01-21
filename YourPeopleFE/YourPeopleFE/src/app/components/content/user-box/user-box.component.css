@@ -1,0 +1,47 @@
+.this-body {
+  background-color: #333;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  padding-top: 5px;
+  width: 300px;
+}
+
+.username-box{
+  display: flex;
+  align-items: center;
+}
+
+h3 {
+  font-size: 30px;
+  margin: 5px;
+}
+img {
+  height: 25px;
+  width: 25px;
+}
+p{
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4CAF50; /* Green button color */
+  color: #fff; /* Light text color */
+  padding: 10px; /* Adjust padding */
+  border: none; /* Remove button border */
+  cursor: pointer; /* Add cursor pointer on hover */
+  border-radius: 4px; /* Add rounded corners */
+  margin-right: 10px; /* Add margin between buttons */
+}
+
+/* Dark background color on hover for buttons */
+button:hover {
+  background-color: #45a049;
+}
+
+/* Style for the 'Send friend request' button when already a friend */
+.already-friend button {
+  background-color: #555; /* Darker color for already friend button */
+  cursor: not-allowed; /* Change cursor to not-allowed when button is disabled */
+}

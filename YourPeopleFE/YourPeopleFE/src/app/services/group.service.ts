@@ -25,4 +25,22 @@ export class GroupService {
   getMyGroups(): Observable<GroupPayload[]> {
     return this.httpClient.get<GroupPayload[]>('http://localhost:8080/group/yourGroups', this.options());
   }
+  getUserGroups(username:String): Observable<GroupPayload[]> {
+    return this.httpClient.get<GroupPayload[]>('http://localhost:8080/group/groupsBy/'+username, this.options());
+  }
+
+  getJoinedGroups(): Observable<GroupPayload[]> {
+    return this.httpClient.get<GroupPayload[]>('http://localhost:8080/group/joinedGroups', this.options());
+  }
+  getUserMemberOf(username:String): Observable<GroupPayload[]> {
+    return this.httpClient.get<GroupPayload[]>('http://localhost:8080/group/userMemberOf/'+username, this.options());
+  }
+
+  getGroup(id: number): Observable<GroupPayload> {
+    return this.httpClient.get<GroupPayload>('http://localhost:8080/group/'+id, this.options());
+  }
+
+  getExploreGroups(): Observable<GroupPayload[]> {
+    return this.httpClient.get<GroupPayload[]>('http://localhost:8080/group/foryou', this.options());
+  }
 }

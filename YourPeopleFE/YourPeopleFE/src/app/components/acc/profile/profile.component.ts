@@ -75,6 +75,13 @@ export class ProfileComponent implements OnInit{
         throwError(error);
       })
 
+      this.groupService.getJoinedGroups().subscribe(data => {
+        console.log(data);
+        this.yourGroups = data;
+      }, error => {
+        throwError(error);
+      })
+
     }, error => {
       throwError(error);
     });

@@ -1,0 +1,25 @@
+<div class="group-info">
+  <h2>{{group.name}}</h2>
+  <p>{{group.description}}</p>
+  <div *ngIf="!accessToggle">
+    <p>Send request to join group in order to access its content</p>
+    <button (click)="sendReq()">Send request</button>
+  </div>
+</div>
+<div class="group-sensitive-info" *ngIf="accessToggle">
+  <div *ngIf="postCreationToggle" class="creation-post">
+    <form [formGroup]="createpostForm" (ngSubmit)="createPost()">
+      <div class="input-group">
+        <input type="text" placeholder="Write your post here" [formControlName]="'content'" required>
+      </div>
+      <button type="submit" class="post-btn">Post</button>
+    </form>
+    <button (click)="createPostToggle()">Cancel</button>
+  </div>
+  <div *ngIf="!postCreationToggle" class="group-posts">
+    <button (click)="createPostToggle()">Create post</button>
+    <div class="group-posts" *ngFor="let post of posts">
+      <app-posts [post]="post"></app-posts>
+    </div>
+  </div>
+</div>

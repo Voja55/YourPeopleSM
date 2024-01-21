@@ -57,9 +57,26 @@ public class GroupController {
     }
 
     @GetMapping("/{groupId}")
-    public GroupDTO group(@PathVariable(value = "groupId") Long id){
-        return modelMapper.map(groupService.findGroupById(id), GroupDTO.class);
+    public ResponseEntity<GroupFEDTO> group(@PathVariable(value = "groupId") Long id, Principal userinfo){
+        User user = userService.findByUsername(userinfo.getName());
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        Group group = groupService.findGroupById(id);
+        if (group == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        GroupFEDTO groupResponse = new GroupFEDTO();
+        groupResponse.setId(group.getId());
+        groupResponse.setName(group.getName());
+        groupResponse.setDescription(group.getDescription());
+        groupResponse.setCreationDate(group.getCreationDate());
+        groupResponse.setGroupAdmin(group.getGroupAdmin().getUsername());
+        groupResponse.setJoined(groupService.isJoinedGroup(user, group));
+        return new ResponseEntity(groupResponse, HttpStatus.ACCEPTED);
+
     }
+
 
     @PostMapping("/request{groupId}")
     @PreAuthorize("hasRole('USER')")
@@ -91,17 +108,23 @@ public class GroupController {
     }
 
     @GetMapping("/foryou")
-    public List<GroupDTO> groupsforyou(Principal userinfo){
+    public List<GroupFEDTO> groupsforyou(Principal userinfo){
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return null;
         }
         List<Group> groups = groupService.yourAvailableGroups(user);
-        List<GroupDTO> groupDTOList = new ArrayList<>();
+        List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
         for (Group group:groups) {
-            groupDTOList.add(modelMapper.map(group, GroupDTO.class));
+            GroupFEDTO groupCopy = new GroupFEDTO();
+            groupCopy.setId(group.getId());
+            groupCopy.setName(group.getName());
+            groupCopy.setDescription(group.getDescription());
+            groupCopy.setCreationDate(group.getCreationDate());
+            groupCopy.setGroupAdmin(group.getGroupAdmin().getUsername());
+            groupFEDTOList.add(groupCopy);
         }
-        return groupDTOList;
+        return groupFEDTOList;
     }
 
     @GetMapping("/yourGroups")
@@ -111,6 +134,65 @@ public class GroupController {
             return null;
         }
         List<Group> groups = groupService.groupsByYou(user);
+        List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
+        for (Group group:groups) {
+            GroupFEDTO groupCopy = new GroupFEDTO();
+            groupCopy.setId(group.getId());
+            groupCopy.setName(group.getName());
+            groupCopy.setDescription(group.getDescription());
+            groupCopy.setCreationDate(group.getCreationDate());
+            groupCopy.setGroupAdmin(group.getGroupAdmin().getUsername());
+            groupFEDTOList.add(groupCopy);
+        }
+        return groupFEDTOList;
+    }
+
+    @GetMapping("/groupsBy/{username}")
+    public List<GroupFEDTO> userGroups(@PathVariable(value = "username")String username){
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        List<Group> groups = groupService.groupsByYou(user);
+        List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
+        for (Group group:groups) {
+            GroupFEDTO groupCopy = new GroupFEDTO();
+            groupCopy.setId(group.getId());
+            groupCopy.setName(group.getName());
+            groupCopy.setDescription(group.getDescription());
+            groupCopy.setCreationDate(group.getCreationDate());
+            groupCopy.setGroupAdmin(group.getGroupAdmin().getUsername());
+            groupFEDTOList.add(groupCopy);
+        }
+        return groupFEDTOList;
+    }
+
+    @GetMapping("/joinedGroups")
+    public List<GroupFEDTO> joinedGroups(Principal userinfo){
+        User user = userService.findByUsername(userinfo.getName());
+        if (user == null) {
+            return null;
+        }
+        List<Group> groups = groupService.joinedGroups(user);
+        List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
+        for (Group group:groups) {
+            GroupFEDTO groupCopy = new GroupFEDTO();
+            groupCopy.setId(group.getId());
+            groupCopy.setName(group.getName());
+            groupCopy.setDescription(group.getDescription());
+            groupCopy.setCreationDate(group.getCreationDate());
+            groupCopy.setGroupAdmin(group.getGroupAdmin().getUsername());
+            groupFEDTOList.add(groupCopy);
+        }
+        return groupFEDTOList;
+    }
+    @GetMapping("/userMemberOf/{username}")
+    public List<GroupFEDTO> userJoinedGroups(@PathVariable(value = "username")String username){
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        List<Group> groups = groupService.joinedGroups(user);
         List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
         for (Group group:groups) {
             GroupFEDTO groupCopy = new GroupFEDTO();

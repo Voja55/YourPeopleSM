@@ -1,0 +1,119 @@
+
+img{
+  height: 100px;
+  width: 100px;
+  align-self: center;
+}
+h1{
+  margin-top: 5px;
+  align-self: center;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 20px;
+  padding: 20px;
+  background-color: #333;
+  color: #ecf0f1;
+  border-radius: 10px;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+.username {
+  font-size: 24px;
+  font-weight: bold;
+  color: #27ae60; /* Green text color */
+}
+
+.profile-info-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.name-surname-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-self: center;
+  width: 50%;
+  margin-top: 10px;
+}
+.email-inputgroup{
+  align-self: center;
+}
+.description-inputgroup{
+  align-self: center;
+}
+
+input {
+  width: max-content;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #555; /* Dark grey border color */
+  border-radius: 4px;
+  background-color: #444; /* Dark grey background color */
+  color: #ecf0f1; /* Light text color */
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+button.edit-btn {
+  background-color: #27ae60; /* Green button color */
+  color: #ecf0f1; /* Light text color */
+  width: 30%;
+  align-self: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.users-lists{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.user-group-box {
+  max-width: 300px;
+  width: 100%;
+}
+
+.group-bar {
+  border: 1px solid #555; /* Dark grey border color */
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #444; /* Dark grey background color */
+}
+
+.group-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #27ae60; /* Green text color */
+  text-decoration: none;
+}
+
+.group-desc {
+  font-size: 14px;
+  color: #ecf0f1; /* Light text color */
+}
+
+.user-posts {
+  width: 600px;
+}
+
+h2 {
+  font-family: Impact, serif;
+  color: #27ae60; /* Green text color */
+}
+.group-name{
+  text-decoration: underline;
+}

@@ -1,45 +1,57 @@
+
+img{
+  height: 100px;
+  width: 100px;
+  align-self: center;
+}
+h1{
+  margin-top: 5px;
+  align-self: center;
+}
+
 .profile-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin: 20px;
   padding: 20px;
-  background-color: #333; /* Dark grey background color */
-  color: #ecf0f1; /* Light text color */
+  background-color: #333;
+  color: #ecf0f1;
+  border-radius: 10px;
 }
-
-.profile-box {
-  max-width: 500px;
-  width: 100%;
-}
-
-.user-info {
+.title {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
+  align-self: center;
 }
-
 .username {
   font-size: 24px;
   font-weight: bold;
   color: #27ae60; /* Green text color */
 }
 
-.name-surname {
+.profile-info-div{
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 10px;
+  flex-direction: column;
 }
 
-.name,
-.surname {
-  width: 48%; /* Adjust as needed */
+.name-surname-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-self: center;
+  width: 50%;
+  margin-top: 10px;
+}
+.email-inputgroup{
+  align-self: center;
+}
+.description-inputgroup{
+  align-self: center;
 }
 
 input {
-  width: 100%;
+  width: max-content;
   padding: 8px;
   box-sizing: border-box;
   border: 1px solid #555; /* Dark grey border color */
@@ -47,11 +59,14 @@ input {
   background-color: #444; /* Dark grey background color */
   color: #ecf0f1; /* Light text color */
   margin-top: 5px;
+  margin-left: 5px;
 }
 
 button.edit-btn {
   background-color: #27ae60; /* Green button color */
   color: #ecf0f1; /* Light text color */
+  width: 30%;
+  align-self: center;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -60,8 +75,14 @@ button.edit-btn {
   margin-top: 10px;
 }
 
+.users-lists{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .user-group-box {
-  max-width: 500px;
+  max-width: 300px;
   width: 100%;
 }
 
@@ -85,7 +106,16 @@ button.edit-btn {
   color: #ecf0f1; /* Light text color */
 }
 
+.user-posts {
+  width: 600px;
+}
+
 h2 {
-  font-family: 'Impact', sans-serif; /* Impact Serif font */
+  font-family: Impact, serif;
   color: #27ae60; /* Green text color */
 }
+.group-name{
+  text-decoration: underline;
+}
+
+

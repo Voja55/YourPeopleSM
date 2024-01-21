@@ -77,8 +77,23 @@ public class PostController {
 
     @GetMapping("/group/{groupId}/posts")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public List<Post> communityPosts(@PathVariable(value = "groupId") Long id){
-        return postService.findPostsByGroup(id);
+    public List<PostFEDTO> communityPosts(@PathVariable(value = "groupId") Long id){
+        List<Post> posts = postService.findPostsByGroup(id);
+        List<PostFEDTO> postsfe = new ArrayList<>();
+        for (Post post: posts) {
+            PostFEDTO newPost = new PostFEDTO();
+            newPost.setId(post.getId());
+            newPost.setUsername(post.getPostedBy().getUsername());
+            newPost.setGroupName(post.getPostedgroup().getName());
+            newPost.setGroupId(post.getPostedgroup().getId());
+            newPost.setContent(post.getContent());
+            newPost.setCreationDate(post.getCreationDate());
+            List<Reaction> reactions =reactionService.findReactionsOnPost(post.getId());
+            newPost.setReactionStat(reactions.size());
+
+            postsfe.add(newPost);
+        }
+        return postsfe;
     }
 
     @GetMapping("/userPosts")
@@ -88,6 +103,55 @@ public class PostController {
         List<Post> posts = postService.findPostsByUser(user.getId());
         List<PostFEDTO> postsfe = new ArrayList<>();
         for (Post post: posts) {
+            PostFEDTO newPost = new PostFEDTO();
+            newPost.setId(post.getId());
+            newPost.setUsername(post.getPostedBy().getUsername());
+            newPost.setGroupName(post.getPostedgroup().getName());
+            newPost.setGroupId(post.getPostedgroup().getId());
+            newPost.setContent(post.getContent());
+            newPost.setCreationDate(post.getCreationDate());
+            List<Reaction> reactions =reactionService.findReactionsOnPost(post.getId());
+            newPost.setReactionStat(reactions.size());
+
+            postsfe.add(newPost);
+        }
+        return postsfe;
+    }
+
+    @GetMapping("/userPosts/{username}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public List<PostFEDTO> visitedUserPosts(@PathVariable(value = "username") String username){
+        User user = userService.findByUsername(username);
+        List<Post> posts = postService.findPostsByUser(user.getId());
+        List<PostFEDTO> postsfe = new ArrayList<>();
+        for (Post post: posts) {
+            PostFEDTO newPost = new PostFEDTO();
+            newPost.setId(post.getId());
+            newPost.setUsername(post.getPostedBy().getUsername());
+            newPost.setGroupName(post.getPostedgroup().getName());
+            newPost.setGroupId(post.getPostedgroup().getId());
+            newPost.setContent(post.getContent());
+            newPost.setCreationDate(post.getCreationDate());
+            List<Reaction> reactions =reactionService.findReactionsOnPost(post.getId());
+            newPost.setReactionStat(reactions.size());
+
+            postsfe.add(newPost);
+        }
+        return postsfe;
+    }
+
+    @GetMapping("/home")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public List<PostFEDTO> home(Principal userInfo){
+        User user = userService.findByUsername(userInfo.getName());
+        List<Group> joinedGroups = groupService.joinedGroups(user);
+        List<PostFEDTO> postsfe = new ArrayList<>();
+        List<Post> postList = new ArrayList<>();
+        for (Group group:joinedGroups) {
+            List<Post> postsbygroup = postService.findPostsByGroup(group.getId());
+            postList.addAll(postsbygroup);
+        }
+        for (Post post: postList) {
             PostFEDTO newPost = new PostFEDTO();
             newPost.setId(post.getId());
             newPost.setUsername(post.getPostedBy().getUsername());

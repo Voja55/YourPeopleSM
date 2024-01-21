@@ -1,2 +1,52 @@
-<p>profile-visit works!</p>
-<!--TODO: implement html kad zavrsim profil ulogovanog-->
+<div class="profile-container">
+  <div class="title">
+    <img src="assets/imgs/profile.png" alt="profilepic">
+    <h1>{{user.username}}</h1>
+  </div>
+  <div class="profile-info-div">
+    <div class="name-surname-box">
+      <div class="name-inputgroup">
+        <label for="name">Name</label>
+        <input class="name-input" type="text" id="name" name="name" value="{{user.name}}" readonly>
+      </div>
+      <div class="surname-inputgroup">
+        <label for="surname">Surname</label>
+        <input class="surname-input" type="text" id="surname" name="surname" value="{{user.surname}}" readonly>
+      </div>
+    </div>
+    <div class="email-inputgroup">
+      <label for="email">Email</label>
+      <input class="email-input" type="text" id="email" name="email" value="{{user.email}}" readonly>
+    </div>
+
+    <div class="description-inputgroup">
+      <label for="desc">Description</label>
+      <input class="desc-input" type="text" id="desc" name="description" value="{{user.description}}" readonly>
+    </div>
+  </div>
+</div>
+<div class="users-lists">
+  <div class="user-group-box">
+    <div><h2>{{user.name}}'s groups</h2></div>
+    <div *ngFor="let groupByYou of groupsByUser">
+      <div class="group-bar">
+        <a class="group-name" href="http://localhost:4200/group/{{groupByYou.id}}">{{ groupByYou.name }}</a>
+        <p class="group-desc">Description: {{ groupByYou.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="user-posts">
+    <div *ngFor="let post of posts">
+      <app-posts [post]="post"></app-posts>
+    </div>
+  </div>
+  <div class="user-group-box">
+    <div><h2>Member of</h2></div>
+    <div *ngFor="let joindGroup of joinedGroups">
+      <div class="group-bar">
+        <a class="group-name" href="http://localhost:4200/group/{{joindGroup.id}}">{{ joindGroup.name }}</a>
+        <p class="group-desc">Description: {{ joindGroup.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>

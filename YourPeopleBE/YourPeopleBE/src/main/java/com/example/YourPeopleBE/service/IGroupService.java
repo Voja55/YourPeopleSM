@@ -25,4 +25,6 @@ public interface IGroupService {
     List<GroupReq> acceptedReqs(Group group);
 
     ERequestState checkGroupReq(User user, Group group);
+
+    boolean isJoinedGroup(User user, Group group);
 }

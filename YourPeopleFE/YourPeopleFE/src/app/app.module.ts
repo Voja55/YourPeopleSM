@@ -16,6 +16,9 @@ import {TokenInterceptorService} from "./services/authentification/token-interce
 import { SearchFriendsComponent } from './components/content/search/search-friends/search-friends.component';
 import { UserBoxComponent } from './components/content/user-box/user-box.component';
 import { ProfileVisitComponent } from './components/content/profile-visit/profile-visit.component';
+import { UserBarComponent } from './components/content/user-bar/user-bar.component';
+import { GroupComponent } from './components/content/group/group.component';
+import { GroupExploreComponent } from './components/content/group-explore/group-explore.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { ProfileVisitComponent } from './components/content/profile-visit/profil
     CommentsComponent,
     SearchFriendsComponent,
     UserBoxComponent,
-    ProfileVisitComponent
+    ProfileVisitComponent,
+    UserBarComponent,
+    GroupComponent,
+    GroupExploreComponent
   ],
   imports: [
     BrowserModule,

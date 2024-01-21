@@ -95,6 +95,13 @@ public class UserController {
         return modelMapper.map(userService.findByUsername(user.getName()), UserDTO.class);
     }
 
+    @GetMapping("/getuser/{username}")
+    @CrossOrigin
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public UserDTO user(@PathVariable(value = "username")String username) {
+        return modelMapper.map(userService.findByUsername(username), UserDTO.class);
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping(value = "/change-password", consumes = "application/json")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")

@@ -4,4 +4,5 @@ export interface GroupPayload {
   description: string;
   creationDate: Date;
   groupAdmin: string;
+  joined: boolean;
 }

@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Post} from "../model/post";
 import {NewPostPayload} from "../model/payloads/newPost.payload";
 import {PostDisplayPayload} from "../model/payloads/postDisplay.payload";
+import {CreatePostPayload} from "../model/payloads/createPost.payload";
 
 @Injectable({
   providedIn: 'root'
@@ -28,14 +29,17 @@ export class PostService {
   getMyPosts(): Observable<PostDisplayPayload[]> {
     return this.httpClient.get<PostDisplayPayload[]>('http://localhost:8080/userPosts', this.options());
   }
-  getHomePosts(): Observable<Post[]> {
-    return this.httpClient.get<Post[]>('http://localhost:8080/home', this.options());
+  getUsersPosts(username: String): Observable<PostDisplayPayload[]> {
+    return this.httpClient.get<PostDisplayPayload[]>('http://localhost:8080/userPosts/'+username, this.options());
   }
-  getGroupPosts(groupId: number): Observable<Post[]> {
-    return this.httpClient.get<Post[]>('http://localhost:8080/group/' + groupId + '/posts', this.options());
+  getHomePosts(): Observable<PostDisplayPayload[]> {
+    return this.httpClient.get<PostDisplayPayload[]>('http://localhost:8080/home', this.options());
   }
-  postCreatePost(groupId: number, postCreate: NewPostPayload): Observable<any> {
-    return this.httpClient.post('http://localhost:8080/community/' + groupId + '/create', postCreate, this.options());
+  getGroupPosts(groupId: number): Observable<PostDisplayPayload[]> {
+    return this.httpClient.get<PostDisplayPayload[]>('http://localhost:8080/group/' + groupId + '/posts', this.options());
+  }
+  postCreatePost(groupId: number, postCreate: CreatePostPayload): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/group/' + groupId + '/create', postCreate, this.options());
   }
 
   getPost(postId: number): Observable<Post> {

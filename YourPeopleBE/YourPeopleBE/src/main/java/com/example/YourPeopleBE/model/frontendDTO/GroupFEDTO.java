@@ -22,11 +22,14 @@ public class GroupFEDTO {
 
     private String groupAdmin;
 
+    private boolean joined;
+
     public GroupFEDTO(GroupFEDTO createdGroup) {
         this.id = createdGroup.getId();
         this.name = createdGroup.getName();
         this.description = createdGroup.getDescription();
         this.creationDate = createdGroup.getCreationDate();
         this.groupAdmin = createdGroup.getGroupAdmin();
+        this.joined = createdGroup.isJoined();
     }
 }

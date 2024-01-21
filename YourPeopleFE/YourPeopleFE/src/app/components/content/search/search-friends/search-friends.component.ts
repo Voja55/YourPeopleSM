@@ -34,4 +34,8 @@ export class SearchFriendsComponent implements OnInit{
   gotoProfile(username: string) {
     this.router.navigate(['/visit-profile', username]);
   }
+
+  sendRequest(username: string) {
+
+  }
 }

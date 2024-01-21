@@ -1,0 +1,12 @@
+<div class="groups-maindiv">
+  <div class="groups">
+    <div><h2>Explore new groups</h2></div>
+    <div *ngFor="let group of groupsExplore">
+      <div class="group-bar">
+        <a class="group-name" href="http://localhost:4200/group/{{group.id}}">{{ group.name }}</a>
+        <p class="group-desc">Description: {{ group.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+

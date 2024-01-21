@@ -5,13 +5,19 @@ import {ProfileComponent} from "./components/acc/profile/profile.component";
 import {LoginComponent} from "./components/acc/login/login.component";
 import {RegisterComponent} from "./components/acc/register/register.component";
 import {SearchFriendsComponent} from "./components/content/search/search-friends/search-friends.component";
+import {ProfileVisitComponent} from "./components/content/profile-visit/profile-visit.component";
+import {GroupComponent} from "./components/content/group/group.component";
+import {GroupExploreComponent} from "./components/content/group-explore/group-explore.component";
 
 const routes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'search-result', component: SearchFriendsComponent}
+  {path: 'search-result', component: SearchFriendsComponent},
+  {path: 'visit-profile/:id', component: ProfileVisitComponent},
+  {path: 'group/:id', component: GroupComponent},
+  {path: 'explore-groups', component: GroupExploreComponent}
 ];
 
 @NgModule({
