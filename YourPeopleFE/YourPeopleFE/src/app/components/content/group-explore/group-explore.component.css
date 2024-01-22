@@ -39,3 +39,24 @@ h2{
 .group-name{
   text-decoration: underline;
 }
+
+.create-btn{
+  background-color: #27ae60; /* Green button color */
+  color: #ecf0f1; /* Light text color */
+  align-self: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+}
+.create-btn:hover{
+  background-color: #555555;
+}
+
+.button-div{
+  background-color: #555555;
+  width: fit-content;
+  border-radius: 4px;
+}

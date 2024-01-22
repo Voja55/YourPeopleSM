@@ -8,6 +8,10 @@ import {SearchFriendsComponent} from "./components/content/search/search-friends
 import {ProfileVisitComponent} from "./components/content/profile-visit/profile-visit.component";
 import {GroupComponent} from "./components/content/group/group.component";
 import {GroupExploreComponent} from "./components/content/group-explore/group-explore.component";
+import {AllGroupsComponent} from "./admin/all-groups/all-groups.component";
+import {AllUsersComponent} from "./admin/all-users/all-users.component";
+import {CreateGroupComponent} from "./components/create-group/create-group.component";
+import {FriendsComponent} from "./components/content/friends/friends.component";
 
 const routes: Routes = [
   {path: 'home', component: HomePageComponent},
@@ -17,7 +21,11 @@ const routes: Routes = [
   {path: 'search-result', component: SearchFriendsComponent},
   {path: 'visit-profile/:id', component: ProfileVisitComponent},
   {path: 'group/:id', component: GroupComponent},
-  {path: 'explore-groups', component: GroupExploreComponent}
+  {path: 'explore-groups', component: GroupExploreComponent},
+  {path: 'groups-admin', component: AllGroupsComponent},
+  {path: 'users-admin', component: AllUsersComponent},
+  {path: 'create-group', component: CreateGroupComponent},
+  {path: 'friends', component: FriendsComponent}
 ];
 
 @NgModule({

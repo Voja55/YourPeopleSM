@@ -70,6 +70,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.POST, "/users/registration").permitAll()
                 .antMatchers(HttpMethod.PUT, "/users/edit").permitAll()
                 .antMatchers(HttpMethod.GET, "/community/{commID}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/group/request/accept{reqId}").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

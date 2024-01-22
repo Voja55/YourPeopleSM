@@ -1,0 +1,19 @@
+body{
+  background-color: #1a1a1a;
+}
+div{
+  padding-top: 10px;
+  background-color: #1a1a1a;
+  height: max-content;
+}
+h2{
+  margin-left: 15px;
+  margin-bottom: 5px;
+  color: #45a049;
+  font-size: 40px;
+}
+
+.user-box {
+  margin-bottom: 5px;
+  margin-left: 20px;
+}

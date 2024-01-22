@@ -27,4 +27,8 @@ public interface IGroupService {
     ERequestState checkGroupReq(User user, Group group);
 
     boolean isJoinedGroup(User user, Group group);
+
+    void suspend(Long id, String reason);
+
+    List<Group> findGroupsByAdmin(User user);
 }

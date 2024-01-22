@@ -1,0 +1,8 @@
+<div class="groups-maindiv">
+  <div class="groups">
+    <div><h2>Explore new groups</h2></div>
+    <div *ngFor="let group of groups">
+      <app-group-box [group] = group></app-group-box>
+    </div>
+  </div>
+</div>

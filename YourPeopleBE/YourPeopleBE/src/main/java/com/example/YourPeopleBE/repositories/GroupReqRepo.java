@@ -17,4 +17,5 @@ public interface GroupReqRepo extends JpaRepository<GroupReq, Long> {
     public List<GroupReq> findAllByFromAndApproved(User user, ERequestState eRequestState);
     //public List<GroupReq> findAllByGroupAndApproved_Aproved(Group group);
     public Optional<GroupReq> findFirstByFromAndGroup(User user, Group group);
+    public List<GroupReq> findAllByFromAndGroup(User user, Group group);
 }

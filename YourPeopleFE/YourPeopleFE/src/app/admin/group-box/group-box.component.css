@@ -1,0 +1,89 @@
+.groups-maindiv{
+  display: flex;
+  flex-direction: column;
+}
+
+h2{
+  font-family: Impact, serif;
+  margin-top: 10px;
+}
+
+.groups {
+  max-width: 300px;
+  width: 100%;
+  background-color: #45a049;
+  padding: 15px;
+  margin: 20px;
+  align-self: center;
+}
+
+.group-bar {
+  border: 1px solid #555; /* Dark grey border color */
+  border-radius: 4px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #444; /* Dark grey background color */
+}
+
+.group-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #27ae60; /* Green text color */
+  text-decoration: none;
+}
+
+.group-desc {
+  font-size: 14px;
+  color: #ecf0f1; /* Light text color */
+}
+.group-name{
+  text-decoration: underline;
+}
+button{
+  background-color: #990000;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover{
+  background-color: #003300;
+  color: #fff;
+}
+
+.toggle1{
+  background-color: #990000;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.toggle1:hover{
+  background-color: #003300;
+  color: #fff;
+}
+
+.toggle2{
+  background-color: #555555;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.toggle1:hover{
+  background-color: #003300;
+  color: #fff;
+}
+
+input{
+  width: 80%;
+}

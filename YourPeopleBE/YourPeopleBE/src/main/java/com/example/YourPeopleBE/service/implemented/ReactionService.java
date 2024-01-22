@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ReactionService implements IReactionService {
@@ -29,7 +31,20 @@ public class ReactionService implements IReactionService {
     }
 
     @Override
-    public Reaction createReaction(ReactionDTO reactionDTO) {
+    public Reaction createReaction(ReactionDTO reactionDTO, String where) {
+        if(Objects.equals(where, "post")){
+            Optional<Reaction> reaction1 = reactionRepo.findFirstByReactedByAndAndReactedOnPost(reactionDTO.getReactedBy(), reactionDTO.getReactedOnPost());
+            if (reaction1.isPresent()){
+                return null;
+            }
+        }
+        if(Objects.equals(where, "comment")){
+            Optional<Reaction> reaction2 = reactionRepo.findFirstByReactedByAndAndReactedOnComment(reactionDTO.getReactedBy(), reactionDTO.getReactedOnComment());
+            if (reaction2.isPresent()){
+                return null;
+            }
+        }
+
         Reaction newReact = new Reaction();
         newReact.setReactionType(reactionDTO.getReactionType());
         newReact.setReactedBy(reactionDTO.getReactedBy());

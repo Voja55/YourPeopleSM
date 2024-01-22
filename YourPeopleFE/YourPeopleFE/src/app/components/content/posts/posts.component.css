@@ -6,11 +6,31 @@ div {
   margin: 15px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+.post-main{
+  background-color: #45a049;
+}
 /* User Info */
 .user-info {
   display: flex;
   align-items: center;
+}
+.post-content-div{
+  background-color: #555555;
+}
+p {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+p.username {
+  font-size: 25px;
+}
+p.post-content{
+  font-size: 20px;
+}
+a{
+  color: #00ff00;
+  text-decoration: underline;
+  font-size: 15px;
 }
 
 .user-info {

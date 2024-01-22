@@ -44,4 +44,8 @@ export class UserService {
   findByUsername(username: string): Observable<UserPayload> {
     return this.httpClient.get<UserPayload>('http://localhost:8080/users/getuser/' + username, this.options());
   }
+
+  getAllAdmin(): Observable<UserPayload[]> {
+    return this.httpClient.get<UserPayload[]>('http://localhost:8080/users/all', this.options());
+  }
 }

@@ -69,7 +69,9 @@ export class GroupComponent implements OnInit{
   }
 
   sendReq() {
-
+    this.groupService.sendGroupReq(this.group.id).subscribe(data => {
+      window.location.reload();
+    })
   }
 
 

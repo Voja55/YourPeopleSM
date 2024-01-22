@@ -6,6 +6,7 @@ import com.example.YourPeopleBE.model.entity.Comment;
 import com.example.YourPeopleBE.model.entity.Post;
 import com.example.YourPeopleBE.model.entity.Reaction;
 import com.example.YourPeopleBE.model.entity.User;
+import com.example.YourPeopleBE.model.frontendDTO.CommentFEDTO;
 import com.example.YourPeopleBE.service.ICommentService;
 import com.example.YourPeopleBE.service.IPostService;
 import com.example.YourPeopleBE.service.IReactionService;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -90,12 +92,26 @@ public class CommentController {
     }
 
     @GetMapping("/comments/{postId}")
-    public List<Comment> commentsOfPost (@PathVariable(value = "postId") Long postId){
-        return commentService.findCommentsByPost(postId);
+    public List<CommentFEDTO> commentsOfPost (@PathVariable(value = "postId") Long postId){
+        List<Comment> comments = commentService.findCommentsByPost(postId);
+        List<CommentFEDTO> commentsFE = new ArrayList<>();
+        for (Comment comment: comments){
+            CommentFEDTO commentFEDTO = new CommentFEDTO(comment);
+            commentFEDTO.setReactions(reactionService.findReactionsOnCom(comment.getId()).size());
+            commentsFE.add(commentFEDTO);
+        }
+        return commentsFE;
     }
 
     @GetMapping("/replies/{commentId}")
-    public List<Comment> repliesOfCom (@PathVariable(value = "commentId") Long commentId){
-        return commentService.findCommentsByComment(commentId);
+    public List<CommentFEDTO> repliesOfCom (@PathVariable(value = "commentId") Long commentId){
+        List<Comment> comments = commentService.findCommentsByComment(commentId);
+        List<CommentFEDTO> commentsFE = new ArrayList<>();
+        for (Comment comment: comments){
+            CommentFEDTO commentFEDTO = new CommentFEDTO(comment, "reda radi da bi znao da je replie a ne comment");
+            commentFEDTO.setReactions(reactionService.findReactionsOnCom(comment.getId()).size());
+            commentsFE.add(commentFEDTO);
+        }
+        return commentsFE;
     }
 }

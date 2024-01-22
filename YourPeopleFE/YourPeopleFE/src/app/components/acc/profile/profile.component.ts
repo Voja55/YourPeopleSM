@@ -12,6 +12,7 @@ import {PostService} from "../../../services/post.service";
 import {PostDisplayPayload} from "../../../model/payloads/postDisplay.payload";
 import {GroupPayload} from "../../../model/payloads/group.payload";
 import {GroupService} from "../../../services/group.service";
+import {RequestPayload} from "../../../model/payloads/request.payload";
 
 @Component({
   selector: 'app-profile',
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit{
   posts: PostDisplayPayload[];
   groupsByYou: GroupPayload[];
   yourGroups: GroupPayload[];
+  waitinReqs: RequestPayload[];
 
   constructor(
     private userService: UserService,
@@ -80,6 +82,11 @@ export class ProfileComponent implements OnInit{
         this.yourGroups = data;
       }, error => {
         throwError(error);
+      })
+
+      this.groupService.waitingGroupReqs().subscribe(data => {
+        console.log(data);
+        this.waitinReqs = data;
       })
 
     }, error => {
@@ -137,4 +144,15 @@ export class ProfileComponent implements OnInit{
   }
 
 
+  acceptGReq(id: number) {
+    this.groupService.acceptGroupReq(id).subscribe(data => {
+      window.location.reload();
+    })
+  }
+
+  declineGReq(id: number) {
+    this.groupService.declineGroupReq(id).subscribe(data => {
+      window.location.reload();
+    })
+  }
 }

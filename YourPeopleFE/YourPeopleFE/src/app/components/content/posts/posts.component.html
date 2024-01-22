@@ -1,18 +1,19 @@
-<div>
+<div class="post-main">
 <!--  user info and group info-->
   <div class="user-info">
 <!--    <img src="user-placeholder.jpg" alt="User Photo">-->
     <p class="username">{{ post?.username }}</p>
-    <p class="group-name">Posted in {{ post?.groupName }}</p>
+    <p class="group-name">Posted in:</p>
+    <a href="http://localhost:4200/group/{{post?.groupId}}">{{ post?.groupName }}</a>
   </div>
-  <div>
+  <div class="post-content-div">
     <p class="post-content">{{ post?.content }}</p>
   </div>
 <!--  post content-->
   <div class="reactions">
-    <button (click)="reactLike()"><img src="assets/reactionIcons/like.png" alt="Like"></button>
-    <button (click)="reactDislike()"><img src="assets/reactionIcons/laugh.png" alt="Laugh"></button>
-    <button (click)="reactLove()"><img src="assets/reactionIcons/love.png" alt="Love"></button>
+    <button (click)="reactLike(post?.id)"><img src="assets/reactionIcons/like.png" alt="Like"></button>
+    <button (click)="reactDislike(post?.id)"><img src="assets/reactionIcons/dislike.png" alt="Laugh"></button>
+    <button (click)="reactLove(post?.id)"><img src="assets/reactionIcons/love.png" alt="Love"></button>
     <span>{{ post?.reactionStat }} Reactions</span>
   </div>
   <button class="open-comments-btn" (click)="openComments()">Open Comments</button>
@@ -22,7 +23,9 @@
     <div>
       <app-comments [post]="post?.id"></app-comments>
     </div>
-    <input class="comment" type="text" [(ngModel)]="commentInput">
-    <button (click)="commentOnPost()">Comment</button>
+    <form [formGroup]="commentForm" (ngSubmit)="commentOnPost()">
+      <input class="comment" type="text" [formControlName]="'commentInput'">
+      <button type="submit">Comment</button>
+    </form>
   </div>
 </div>

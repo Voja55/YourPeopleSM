@@ -1,0 +1,14 @@
+<div class="group-bar">
+  <a class="group-name" href="http://localhost:4200/group/{{group.id}}">{{ group.name }}</a>
+  <p class="group-desc">Description: {{ group.description}}</p>
+</div>
+<button class="toggle1" *ngIf="!suspendToggleBool" (click)="suspendToggle()" >Suspend</button>
+<div *ngIf="suspendToggleBool">
+  <form [formGroup]="suspendForm" (ngSubmit)="suspend(group.id)">
+    <div class="input-group">
+      <input type="text" placeholder="Write your reason" [formControlName]="'reason'" required>
+    </div>
+    <button type="submit" class="suspend-btn">Accept</button>
+  </form>
+  <button class="toggle2" (click)="suspendToggle()" >Cancel</button>
+</div>

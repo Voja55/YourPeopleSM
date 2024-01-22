@@ -48,8 +48,10 @@ public class ReactController {
         reactDTO.setReactedBy(user);
         reactDTO.setReactedOnPost(post);
 
-        Reaction newReact = reactionService.createReaction(reactDTO);
-
+        Reaction newReact = reactionService.createReaction(reactDTO, "post");
+        if (newReact == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
         ReactionDTO newReactDTO = new ReactionDTO(newReact);
 
         return new ResponseEntity(newReactDTO, HttpStatus.OK);
@@ -72,8 +74,10 @@ public class ReactController {
         reactDTO.setReactedBy(user);
         reactDTO.setReactedOnComment(comment);
 
-        Reaction newReact = reactionService.createReaction(reactDTO);
-
+        Reaction newReact = reactionService.createReaction(reactDTO, "comment");
+        if (newReact == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
         ReactionDTO newReactDTO = new ReactionDTO(newReact);
 
         return new ResponseEntity(newReactDTO, HttpStatus.OK);

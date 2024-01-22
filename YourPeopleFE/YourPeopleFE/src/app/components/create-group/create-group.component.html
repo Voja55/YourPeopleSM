@@ -1,0 +1,18 @@
+<div class="login-container">
+  <div class="login-box">
+    <div class="box-title">Login</div>
+    <form [formGroup]="createForm" (ngSubmit)="createGroup()">
+      <div class="input-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" [formControlName]="'name'" required>
+      </div>
+      <div class="input-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Enter group's description" [formControlName]="'description'" required>
+      </div>
+
+      <button type="submit" class="login-btn">Create</button>
+    </form>
+    <br>
+  </div>
+</div>

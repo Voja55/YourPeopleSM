@@ -8,6 +8,7 @@ import com.example.YourPeopleBE.model.entity.Group;
 import com.example.YourPeopleBE.model.entity.GroupReq;
 import com.example.YourPeopleBE.model.entity.User;
 import com.example.YourPeopleBE.model.frontendDTO.GroupFEDTO;
+import com.example.YourPeopleBE.model.frontendDTO.GroupReqFEDTO;
 import com.example.YourPeopleBE.service.IGroupService;
 import com.example.YourPeopleBE.service.IUserService;
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.DescriptorKey;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,33 +80,21 @@ public class GroupController {
     }
 
 
-    @PostMapping("/request{groupId}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<GroupReqDTO> createGroupReq(@PathVariable(value = "groupId") Long id, Principal userinfo) {
-
-        User user = userService.findByUsername(userinfo.getName());
-        if (user == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-        }
-        Group group = groupService.findGroupById(id);
-        if (group == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        GroupReqDTO groupReqDTO =new GroupReqDTO(groupService.sendGroupReq(user, group));
-
-        return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
-    }
-
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<GroupDTO> groups(){
+    public List<GroupFEDTO> groups(){
         List<Group> groups = groupService.availableGroups();
-        List<GroupDTO> groupDTOList = new ArrayList<>();
+        List<GroupFEDTO> groupFEDTOList = new ArrayList<>();
         for (Group group:groups) {
-            groupDTOList.add(modelMapper.map(group, GroupDTO.class));
+            GroupFEDTO groupCopy = new GroupFEDTO();
+            groupCopy.setId(group.getId());
+            groupCopy.setName(group.getName());
+            groupCopy.setDescription(group.getDescription());
+            groupCopy.setCreationDate(group.getCreationDate());
+            groupCopy.setGroupAdmin(group.getGroupAdmin().getUsername());
+            groupFEDTOList.add(groupCopy);
         }
-        return groupDTOList;
+        return groupFEDTOList;
     }
 
     @GetMapping("/foryou")
@@ -220,23 +210,55 @@ public class GroupController {
         return users;
     }
 
-    @GetMapping("/{groupId}/requestswaiting")
-    public List<GroupReq> requestsforyou(Principal userinfo, @PathVariable(value = "groupId") Long id){
+    //=====================================GROUP REQUEST=======================================================
+
+    @PostMapping("/request{groupId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GroupReq> createGroupReq(@PathVariable(value = "groupId") Long id, Principal userinfo) {
+
+        User user = userService.findByUsername(userinfo.getName());
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        Group group = groupService.findGroupById(id);
+        if (group == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        GroupReqDTO groupReqDTO =new GroupReqDTO(groupService.sendGroupReq(user, group));
+
+        return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/requests/waiting")
+    public List<GroupReqFEDTO> reqsForYou(Principal userinfo){
         User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return null;
         }
-        Group group = groupService.findGroupById(id);
-        User admin = group.getGroupAdmin();
-        if (admin.getUsername().equals(user.getUsername())){
-            return groupService.waitingReqs(group);
+        List<Group> groups = groupService.findGroupsByAdmin(user);
+        List<GroupReqFEDTO> groupReqsResponse = new ArrayList<>();
+        for (Group group: groups){
+            List<GroupReq> groupReqs = groupService.waitingReqs(group);
+            for (GroupReq groupReq: groupReqs){
+                GroupReqFEDTO groupReqFEDTO = new GroupReqFEDTO();
+                groupReqFEDTO.setId(groupReq.getId());
+                groupReqFEDTO.setApproved(groupReq.getApproved());
+                groupReqFEDTO.setCreationTime(groupReq.getCreationTime());
+                groupReqFEDTO.setAnswerTime(groupReq.getAnswerTime());
+                groupReqFEDTO.setFrom(groupReq.getFrom().getUsername());
+                groupReqFEDTO.setGroupName(groupReq.getGroup().getName());
+                groupReqFEDTO.setGroupId(groupReq.getGroup().getId());
+                groupReqsResponse.add(groupReqFEDTO);
+            }
         }
-        return null;
+        return groupReqsResponse;
     }
 
-    @PostMapping("/request/accept{reqId}")
-    public ResponseEntity<GroupReqDTO> acceptReq(Principal userInfo, @PathVariable(value = "reqId") Long id){
-        User user = userService.findByUsername(userInfo.getName());
+    @CrossOrigin
+    @PutMapping("/request/accept{reqId}")
+    public ResponseEntity<GroupReqDTO> acceptReq(@PathVariable(value = "reqId") Long id, Principal userinfo){
+        User user = userService.findByUsername(userinfo.getName());
         if (user == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
@@ -247,7 +269,8 @@ public class GroupController {
         return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/request/reject{reqId}")
+    @CrossOrigin
+    @PutMapping("/request/reject{reqId}")
     public ResponseEntity<GroupReqDTO> rejectReq(Principal userInfo, @PathVariable(value = "reqId") Long id){
         User user = userService.findByUsername(userInfo.getName());
         if (user == null) {
@@ -258,5 +281,10 @@ public class GroupController {
         GroupReqDTO groupReqDTO = new GroupReqDTO(groupService.updateGroupReq(proccessedGroupReq));
 
         return new ResponseEntity(groupReqDTO, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/suspend{id}")
+    public void suspendGroup(@PathVariable(value = "id") Long id, @RequestBody String reason){
+        groupService.suspend(id,reason);
     }
 }

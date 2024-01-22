@@ -1,0 +1,9 @@
+<div>
+  <h2>Your Friends</h2>
+  <div *ngFor="let friend of friends">
+    <div class="user-box">
+      <app-user-bar [user] = friend ></app-user-bar>
+    </div>
+  </div>
+<!--  TODO: friend requests-->
+</div>

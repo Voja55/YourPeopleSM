@@ -1,10 +1,11 @@
 package com.example.YourPeopleBE.controllers;
 
-import com.example.YourPeopleBE.model.dto.JwtAuthenticationRequest;
-import com.example.YourPeopleBE.model.dto.PassChangeDTO;
-import com.example.YourPeopleBE.model.dto.UserDTO;
-import com.example.YourPeopleBE.model.dto.UserTokenState;
+import com.example.YourPeopleBE.model.dto.*;
+import com.example.YourPeopleBE.model.entity.ERequestState;
+import com.example.YourPeopleBE.model.entity.FriendReq;
+import com.example.YourPeopleBE.model.entity.GroupReq;
 import com.example.YourPeopleBE.model.entity.User;
+import com.example.YourPeopleBE.model.frontendDTO.FriendFEDTO;
 import com.example.YourPeopleBE.security.TokenUtils;
 import com.example.YourPeopleBE.service.IFriendsService;
 import com.example.YourPeopleBE.service.IUserService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -143,5 +145,91 @@ public class UserController {
 
         return new ResponseEntity<>(new UserDTO(editedUser), HttpStatus.OK);
     }
+
+    //--------------------------FRIENDS---------------------------------------
+
+    @PostMapping("/friend/send/{username}")
+    public ResponseEntity<FriendReq> acceptReq(Principal userInfo, @PathVariable(value = "username") String username){
+        User you = userService.findByUsername(userInfo.getName());
+        if (you == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(friendsService.alreadyFriends(you, user)){
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        FriendReq friendReq = friendsService.sendFriendReq(you, user);
+        if (friendReq == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity(friendReq, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "friends/waiting")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public List<FriendReq> waitingReqs(Principal userInfo){
+        User user = userService.findByUsername(userInfo.getName());
+        if (user == null) {
+            return null;
+        }
+        List<FriendReq> friendReqs = friendsService.waitingRequestForYou(user);
+        return friendReqs;
+    }
+
+    @GetMapping(value = "friends")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public List<FriendFEDTO> friends(Principal userInfo){
+        User user = userService.findByUsername(userInfo.getName());
+        if (user == null) {
+            return null;
+        }
+        List<User> friends= friendsService.yourFriends(user);
+        List<FriendFEDTO> friendsResponse = new ArrayList<>();
+        for (User friend: friends){
+            FriendFEDTO friendCopy = new FriendFEDTO();
+            FriendReq friendReq = friendsService.findFriendReqByFromAndTo(friend, user);
+            friendCopy.setFriendReqId(friendReq.getId());
+            friendCopy.setId(friend.getId());
+            friendCopy.setUsername(friend.getUsername());
+            friendCopy.setEmail(friend.getEmail());
+            friendCopy.setName(friend.getName());
+            friendCopy.setSurname(friend.getSurname());
+            friendCopy.setDescription(friend.getDescription());
+
+            friendsResponse.add(friendCopy);
+        }
+        return friendsResponse;
+    }
+
+    @PostMapping("/friend/accept{reqId}")
+    public ResponseEntity<FriendReqDTO> acceptReq(Principal userInfo, @PathVariable(value = "reqId") Long id){
+        User user = userService.findByUsername(userInfo.getName());
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        FriendReq proccessedFR = friendsService.findFriendReqById(id);
+        proccessedFR.setApproved(ERequestState.ACCEPTED);
+        FriendReqDTO friendReqDTO =new FriendReqDTO(friendsService.updateFriendReq(proccessedFR));
+
+        return new ResponseEntity(friendReqDTO, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/friend/decline{reqId}")
+    public ResponseEntity<FriendReqDTO> declineReq(Principal userInfo, @PathVariable(value = "reqId") Long id){
+        User user = userService.findByUsername(userInfo.getName());
+        if (user == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+        FriendReq proccessedFR = friendsService.findFriendReqById(id);
+        proccessedFR.setApproved(ERequestState.REJECTED);
+        FriendReqDTO friendReqDTO =new FriendReqDTO(friendsService.updateFriendReq(proccessedFR));
+
+        return new ResponseEntity(friendReqDTO, HttpStatus.CREATED);
+    }
+
+
 
 }

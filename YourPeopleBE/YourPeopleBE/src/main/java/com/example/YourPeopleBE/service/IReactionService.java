@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IReactionService {
 
-    Reaction createReaction(ReactionDTO reactionDTO);
+    Reaction createReaction(ReactionDTO reactionDTO, String where);
 
     Long reactionsCountOnPost(Post post);
     Long reactionsCountOnComment(Comment comment);

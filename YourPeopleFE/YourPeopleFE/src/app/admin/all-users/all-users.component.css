@@ -1,0 +1,11 @@
+.all-users{
+  display: flex;
+  flex-direction: column;
+}
+.all-users-junior{
+  align-self: center;
+}
+.user-box{
+  margin-top: 20px;
+  margin-left: 20px;
+}

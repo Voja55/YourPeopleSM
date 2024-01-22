@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FriendReqRepo extends JpaRepository<FriendReq, Long> {
     public List<FriendReq> findAllByTo (User user);
-
     public List<FriendReq> findAllByApprovedAndTo (ERequestState requestState, User user);
     public List<FriendReq> findAllByApprovedAndFrom (ERequestState requestState, User user);
+    public Optional<FriendReq> findFirstByFromAndTo (User from, User to);
+    public List<FriendReq> findAllByFromAndTo(User you, User user);
 }

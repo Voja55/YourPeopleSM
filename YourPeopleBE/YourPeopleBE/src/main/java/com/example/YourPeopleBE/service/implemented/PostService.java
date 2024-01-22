@@ -65,9 +65,7 @@ public class PostService implements IPostService {
     @Override
     public boolean checkposting(User user, Group group) {
         ERequestState state = groupService.checkGroupReq(user, group);
-        if (state == null){
-            return false;
-        } else if (state.equals(ERequestState.ACCEPTED)){
+        if (state.equals(ERequestState.ACCEPTED)){
             return true;
         }
         return false;

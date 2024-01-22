@@ -88,11 +88,24 @@
 </div>
 <div class="users-lists">
   <div class="user-group-box">
-    <div><h2>Groups by you</h2></div>
+    <div class="create-group-box">
+      <div><h2>Groups by you</h2></div>
+      <div><a href="http://localhost:4200/create-group"><button class="create-btn">Create group</button></a></div>
+    </div>
     <div *ngFor="let groupByYou of groupsByYou">
       <div class="group-bar">
         <a class="group-name" href="http://localhost:4200/group/{{groupByYou.id}}">{{ groupByYou.name }}</a>
         <p class="group-desc">Description: {{ groupByYou.description}}</p>
+      </div>
+    </div>
+    <div class="create-group-box">
+      <div><h2>Request waiting to join</h2></div>
+      <div *ngFor="let req of waitinReqs">
+        <a href="http://localhost:4200/profile-visit/{{req.from}}">From: {{req.from}}</a>
+        <p>Date: {{req.creationTime}}</p>
+        <a href="http://localhost:4200/group/{{req.groupId}}">For Group: {{req.groupName}}</a>
+        <button (click)="acceptGReq(req.id)">Accept</button>
+        <button (click)="declineGReq(req.id)">Decline</button>
       </div>
     </div>
   </div>

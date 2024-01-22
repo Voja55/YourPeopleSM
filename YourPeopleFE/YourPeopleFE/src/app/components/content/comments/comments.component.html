@@ -1,23 +1,25 @@
-<div *ngFor="let comment of comments">
+<div class="comment-div" *ngFor="let comment of comments">
   <div class="comment-bar">
-    <a class="comment-name">{{ comment.username }}</a>
-    <p class="comment-timestamp">{{ comment.timestamp}}</p>
+    <a class="comment-name">{{ comment.postedBy}}</a>
+<!--    <p class="comment-timestamp">{{ comment.creationDate}}</p>-->
     <p class="comment-desc">{{ comment.text}}</p>
-  </div>
-  <button (click)="openReplies()">Open Replies</button>
-  <div *ngIf="repliesToggle">
-    <div *ngFor="let reply of replies">
-      <div class="reply-bar">
-        <a class="reply-name">{{ reply.username }}</a>
-        <p class="reply-timestamp">{{ reply.timestamp}}</p>
-        <p class="reply-desc">{{ reply.text}}</p>
-      </div>
+    <div class="reactions">
+      <button (click)="reactLike(comment.id)"><img src="assets/reactionIcons/like.png" alt="Like"></button>
+      <button (click)="reactDislike(comment.id)"><img src="assets/reactionIcons/dislike.png" alt="Laugh"></button>
+      <button (click)="reactLove(comment.id)"><img src="assets/reactionIcons/love.png" alt="Love"></button>
+      <span>{{ comment.reactions }} Reactions</span>
     </div>
   </div>
-  <div class="input-group">
-    <label for="reply">Username</label>
-    <input type="text" id="reply" name="reply" [(ngModel)]="replytext" placeholder="Reply to this comment">
+<!--  <button (click)="openReplies()">Open Replies</button>-->
+<!--  <div *ngIf="repliesToggle">-->
+  <div class="replies-div">
+    <app-comments [comment]="comment.id"></app-comments>
   </div>
-  <button type="button" class="reply-btn" (click)="reply()">Reply</button>
+  <div class="reply-div">
+    <form [formGroup]="replyForm" (ngSubmit)="replyToComment(comment.id)">
+      <input class="comment" type="text" [formControlName]="'commentInput'">
+      <button type="submit">Comment</button>
+    </form>
+  </div>
 
 </div>

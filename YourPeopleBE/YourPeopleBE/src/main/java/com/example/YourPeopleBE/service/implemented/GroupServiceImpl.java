@@ -10,6 +10,7 @@ import com.example.YourPeopleBE.repositories.GroupReqRepo;
 import com.example.YourPeopleBE.service.IGroupService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,37 +63,77 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public ERequestState checkGroupReq(User user, Group group) {
-        Optional<GroupReq> groupReq = groupReqRepo.findFirstByFromAndGroup(user, group);
-        if(groupReq.isPresent()){
-            return groupReq.get().getApproved();
+        List<GroupReq> groupReqs = groupReqRepo.findAllByFromAndGroup(user, group);
+        for (GroupReq groupReq: groupReqs){
+            if (groupReq.getApproved().equals(ERequestState.ACCEPTED)){
+                return ERequestState.ACCEPTED;
+            }
         }
-        return null;
+        for (GroupReq groupReq: groupReqs){
+            if (groupReq.getApproved().equals(ERequestState.WAITING)){
+                return ERequestState.WAITING;
+            }
+        }
+        return ERequestState.REJECTED;
+
+//        Optional<GroupReq> groupReq = groupReqRepo.findFirstByFromAndGroup(user, group);
+//        if(groupReq.isPresent()){
+//            return groupReq.get().getApproved();
+//        }
+//        return null;
     }
 
     @Override
     public boolean isJoinedGroup(User user, Group group) {
-        Optional<GroupReq> groupReq = groupReqRepo.findFirstByFromAndGroup(user, group);
-        if (groupReq.isPresent()){
-            if (groupReq.get().getApproved().equals(ERequestState.ACCEPTED)){
+
+        List<GroupReq> groupReqs = groupReqRepo.findAllByFromAndGroup(user, group);
+        for (GroupReq groupReq: groupReqs){
+            if(groupReq.getApproved().equals(ERequestState.ACCEPTED)){
                 return true;
             }
-            return false;
         }
         return false;
+
+//        Optional<GroupReq> groupReq1 = groupReqRepo.findFirstByFromAndGroup(user, group);
+//        if (groupReq1.isPresent()){
+//            if (groupReq1.get().getApproved().equals(ERequestState.ACCEPTED)){
+//                return true;
+//            }
+//            return false;
+//        }
+//        return false;
+    }
+
+    @Override
+    public void suspend(Long id, String reason) {
+        Optional<Group> group = groupRepo.findById(id);
+        if (group.isPresent()){
+            Group groupsus = group.get();
+            groupsus.setSuspended(true);
+            groupsus.setSuspendedReason(reason);
+            groupsus.setSuspendedTime(LocalDateTime.now());
+            groupRepo.save(groupsus);
+        }
+    }
+
+    @Override
+    public List<Group> findGroupsByAdmin(User user) {
+        return groupRepo.findAllByGroupAdminAndSuspendedIsFalse(user);
     }
 
     @Override
     public GroupReq sendGroupReq(User user, Group group) {
         ERequestState state = checkGroupReq(user, group);
-        if(state != null){
-            return null;
+        if(state.equals(ERequestState.REJECTED)) {
+            GroupReq newGroupReq = new GroupReq();
+            newGroupReq.setGroup(group);
+            newGroupReq.setFrom(user);
+            newGroupReq.setApproved(ERequestState.WAITING);
+            System.out.println(newGroupReq);
+            GroupReq responsereq = groupReqRepo.save(newGroupReq);
+            return responsereq;
         }
-        GroupReq newGroupReq = new GroupReq();
-        newGroupReq.setGroup(group);
-        newGroupReq.setFrom(user);
-        newGroupReq.setApproved(ERequestState.WAITING);
-        newGroupReq = groupReqRepo.save(newGroupReq);
-        return newGroupReq;
+        return null;
     }
 
     @Override
@@ -115,7 +156,10 @@ public class GroupServiceImpl implements IGroupService {
         List<GroupReq> approvedGroups = groupReqRepo.findAllByFromAndApproved(user, ERequestState.ACCEPTED);
         List<Group> yourGroups = new ArrayList<>();
         for (GroupReq groupReq: approvedGroups) {
-            yourGroups.add(groupReq.getGroup());
+            if(!groupReq.getGroup().isSuspended()){
+                yourGroups.add(groupReq.getGroup());
+            }
+
         }
         return yourGroups;
     }

@@ -19,6 +19,11 @@ import { ProfileVisitComponent } from './components/content/profile-visit/profil
 import { UserBarComponent } from './components/content/user-bar/user-bar.component';
 import { GroupComponent } from './components/content/group/group.component';
 import { GroupExploreComponent } from './components/content/group-explore/group-explore.component';
+import { AllUsersComponent } from './admin/all-users/all-users.component';
+import { AllGroupsComponent } from './admin/all-groups/all-groups.component';
+import { GroupBoxComponent } from './admin/group-box/group-box.component';
+import { CreateGroupComponent } from './components/create-group/create-group.component';
+import { FriendsComponent } from './components/content/friends/friends.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +40,12 @@ import { GroupExploreComponent } from './components/content/group-explore/group-
     ProfileVisitComponent,
     UserBarComponent,
     GroupComponent,
-    GroupExploreComponent
+    GroupExploreComponent,
+    AllUsersComponent,
+    AllGroupsComponent,
+    GroupBoxComponent,
+    CreateGroupComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule,
